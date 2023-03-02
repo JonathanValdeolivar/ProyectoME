@@ -8,8 +8,7 @@ class MaquinaExpendedora:
         return Dic_Productos.get(Codigo_llave)
         
     def EnlistarProducto()->None:
-        for i in dic:
-            print(i.get(0))
+            pass
     
 class User:
     def __init__(self, nombre):
@@ -27,14 +26,18 @@ class Producto:
         self.nombre = nombre
         self.precio = precio
         self.codigo = codigo
-    
+class Sodas(Producto):
+    pass
 
-# def IniciarProductos():
-#     dic = {110: 'CocaCola', 111:'Pepsi', 210: 'Donas'}#Seguir agregando productos al diccionario
-dic = {110: 'CocaCola', 111:'Pepsi', 210: 'Donas'}
-values=dic.values
-print(values())
-#MaquinaExpendedora.EnlistarProducto()
+class Papas(Producto):
+    pass
+
+class Galletas(Producto):
+    pass
+    
+def IniciarProductos():
+    dic = {110: 'CocaCola', 111:'Pepsi', 210: 'Donas'}#Seguir agregando productos al diccionario
+
 
     
 
