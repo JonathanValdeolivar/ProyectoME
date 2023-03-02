@@ -19,6 +19,14 @@ class Usuario(User):
         User.__init__(self,'Usuario')
     def SeleccionarProducto(self):
         pass
+class UsuarioPremium(User):
+    def __init__ (self,  usuario, contraseña, edad, compañia):
+        User.__init__(self, self.nombre)
+        self.usuario=usuario
+        self.contraseña=contraseña
+        self.edad=edad
+        self.compañia=compañia
+
 
 
 class Producto:
