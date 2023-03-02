@@ -7,8 +7,9 @@ class MaquinaExpendedora:
     def EntregarProducto(Codigo_llave: int, Dic_Productos: dict)-> str:
         return Dic_Productos.get(Codigo_llave)
         
-    def SeleccionarProducto()->None:
-        print("Aqui se imprime la lista de valores del diccionario")
+    def EnlistarProducto()->None:
+        for i in dic:
+            print(i.get(0))
     
 class User:
     def __init__(self, nombre):
@@ -28,11 +29,13 @@ class Producto:
         self.codigo = codigo
     
 
-def IniciarProductos():
-    dict = {0110: 'CocaCola', 0111:'Pepsi', 0210: 'Donas'}#Seguir agregando productos al diccionario
-    
-    
-    
+# def IniciarProductos():
+#     dic = {110: 'CocaCola', 111:'Pepsi', 210: 'Donas'}#Seguir agregando productos al diccionario
+dic = {110: 'CocaCola', 111:'Pepsi', 210: 'Donas'}
+values=dic.values
+print(values())
+#MaquinaExpendedora.EnlistarProducto()
+
     
 
 # 1. Entregar producto.
