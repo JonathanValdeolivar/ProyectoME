@@ -10,6 +10,16 @@ class MaquinaExpendedora:
     def SeleccionarProducto()->None:
         print("Aqui se imprime la lista de valores del diccionario")
     
+class User:
+    def __init__(self, nombre):
+        self.nombre=nombre
+
+class Usuario(User):
+    def __init__(self):
+        User.__init__(self,'Usuario')
+    def SeleccionarProducto(self):
+        pass
+
 
 class Producto:
     def __init__(self, nombre, precio, codigo):
