@@ -27,27 +27,41 @@ class UsuarioPremium(User):
         self.edad=edad
         self.compañia=compañia
 
-
-
 class Producto:
-    def __init__(self, nombre, precio, codigo):
+    def __init__(self, nombre, precio, codigo, tipo, color, contenido, marca ):
         self.nombre = nombre
         self.precio = precio
         self.codigo = codigo
+        self.tipo=tipo
+        self.color=color
+        self.contenido=contenido
+        self.marca=marca
+    def agregar_producto(Self):
+        print('hola')
+        # opc=str(input('Seleccione el tipo de producto que desea ingresar \n1. Refresco\n2. Fritura\n3. Galletas'))
+        # if opc == '1':
+        #     coca=Sodas()
+        #     pass
+
 class Sodas(Producto):
-    pass
+    def __init__(self, nombre, precio, codigo, tipo='color', color, contenido, marca):
+        super().__init__(self, nombre, precio, codigo, 'Refresco', self.color, self.contenido, self.marca)
 
 class Papas(Producto):
-    pass
+    def __init__(self):
+        Producto.__init__(self, self.nombre, self.precio, self.codigo, 'Papas', self.color, self.contenido, self.marca)
 
 class Galletas(Producto):
-    pass
+    def __init__(self):
+        Producto.__init__(self, self.nombre, self.precio, self.codigo, 'Galletas', self.color, self.contenido, self.marca)
     
 def IniciarProductos():
     dic = {110: 'CocaCola', 111:'Pepsi', 210: 'Donas'}#Seguir agregando productos al diccionario
 
+coca=Sodas( 30, 111, 'negro', '1 litro', 'coca' ,'')
+print(coca.agregar_producto())
 
-    
+       
 
 # 1. Entregar producto.
 # 2. Seleccionar producto.
