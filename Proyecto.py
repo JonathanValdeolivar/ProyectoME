@@ -13,13 +13,12 @@ class MaquinaExpendedora:
 
     def EnlistarProducto()->None:
             Pro=[]
-            Pro=list(diccionarioProductos.keys())
-            print(Pro)
-            # print(Pro[0].values)
+            Pro=list(diccionarioProductos.values())
+            print(Pro[0].nombre)
     
     def AgregarProducto(self, Producto):
         llave = Producto.codigo
-        self.productos.setdefault(llave,Producto)
+        self.productos.setdefault(llave, Producto)
         
     def EscribirRecibo(self):
         with open('datos.csv', 'w') as archivo_csv:
@@ -39,7 +38,7 @@ class UsuarioBase(User):
         User.__init__(self,'Usuario')
     def SeleccionarProducto(self):
         pass
-    
+
 class UsuarioPremium_Dueño(User):
     def __init__ (self, nombre, contraseña, edad, compañia):
         super().__init__(nombre)
@@ -81,7 +80,6 @@ class Galletas(Producto):
         self.marca = marca
         self.tipo = tipo
         self.color=color
-
 
 diccionarioProductos = dict()
 Maquina = MaquinaExpendedora(diccionarioProductos, 8000)
