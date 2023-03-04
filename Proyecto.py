@@ -52,8 +52,6 @@ class UsuarioPremium(User):
         self.edad=edad
         self.compañia=compañia
 
-    
-
 class Producto:
     def __init__(self, nombre, precio, codigo, tipo, color, contenido, marca ):
         self.nombre = nombre
@@ -70,14 +68,52 @@ class Producto:
         #     coca=Sodas()
         #     pass
 
+
+    # def IniciarProductos():
+    #     dic = {110: 'CocaCola', 111:'Pepsi', 120: 'Red cola', 121: 'Monster',
+    #     130: 'Fanta', 131: 'Sprite', 140: 'Peñafiel', 141: 'Jarrito',
+    #     210: 'Takis', 211: 'Doritos', 220: 'Cheetos', 221: 'Chips', 
+    #     230: 'Sabritas', 231: 'Ruffles', 240: 'Runners', 241: 'Toreadas',
+    #     511: 'Chokis', 610: 'Emperador', 611:'Principe', 620: 'Marias',
+    #     621: 'Deliciosas', 630: 'Arcoiris', 631: 'Quaker'}#Seguir agregando productos al diccionario
+
+    
+
 class Sodas(Producto):
-    pass
+    
+    def agregar():
+        pass
+
+    def eliminar():
+        pass
+
+    def imprimir():
+        print(dicGa)
+    
 
 class Papas(Producto):
-   pass
-class Galletas(Producto):
-    pass
+
+    def agregar():
+        pass
+
+    def eliminar():
+        pass
+
+    def imprimir():
+        print(dicGa)
     
+    
+
+class Galletas(Producto):
+
+    def agregar():
+        pass
+
+    def eliminar():
+        pass
+
+    def imprimir():
+        print(dicGa)
 
 def main():
 
@@ -87,9 +123,17 @@ def main():
     print('Bienvenido' + nombre + 'Seleccione la opcion que desee...\n'
           + '1. Comprar' + '2. Salir')
     opc = int(input('Opcion: '))
-    
 
-    MaquinaExpendedora.EnlistarProducto()
+    
+def IniciarProductos():
+    dic = {110: 'CocaCola', 111:'Pepsi', 210: 'Donas'}#Seguir agregando productos al diccionario
+
+coca=Sodas( 30, 111, 'negro', '1 litro', 'coca' ,'')
+print(coca.agregar_producto())
+
+       
+
+MaquinaExpendedora.EnlistarProducto()
 
 
 
