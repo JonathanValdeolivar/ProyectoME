@@ -1,45 +1,153 @@
 import csv
 import time
 class MaquinaExpendedora:
+
+    """
+    En esta clase se definen los atributos y metodos para una maquina expendedora
+
+    utiliza un diccionario llamado productos y dinero de tipo flotante 
+
+    crea un objeto maquina 
+    """
+
     def __init__(self, productos: dict, dinero: float) -> None:
+
+        """
+        Esta funcion constructor le da valores a los atributos
+
+        Arg:
+        diccionario llamado productos, dinero que contiene la maquina
+
+        Return:
+        no retorna nada
+        """
+
         self.productos = productos
         self.dinero = dinero
         
     #Usar diccionario para relacionar codigos y productos.
+
+    def EntregarProducto(self, Codigo_llave: int)-> str:
+
+        """
+        Esta funcion sirve para entregar los productos al usuario
+
+        Arg:
+        Codigo_llave de tipo entero
+
+        Return:
+        retorna el codigo llave del producto que esta en el diccionario
+        """
+        return self.productos.get(Codigo_llave)
+
     def EntregarProducto(self, Codigo_llave: int):
         producto = self.productos[Codigo_llave]
         producto.cantidad = -1
         return self.productos.pop(Codigo_llave)
-    
 
     def SeleccionarProducto()->None:
+
+        """
+        Esta funcion sirve para seleccionar el producto que se desee
+
+        Arg:
+        no tiene 
+
+        Return:
+        no retorna nada
+        """
+
         print("Aqui se imprime la lista de valores del diccionario")
         
     def EnlistarProducto()->None:
             pass
+            
+        """
+        Esta funcion va a enlistar todos los productos disponibles en la maquina expendedora
 
+        Arg:
+        No tiene
 
-    def EnlistarProducto()->None:
-            Pro=[]
-            Pro=list(diccionarioProductos.keys())
-            print(Pro)
-            # print(Pro[0].values)
+        Return:
+        no retorna nada
+        """
+
+        Pro=[]
+        Pro=list(diccionarioProductos.keys())
+        print(Pro)
+        # print(Pro[0].values)
     
     def AgregarProducto(self, Producto):
+
+        """
+        Esta funcion va a agragar productos a la lista de productos disponibles de la maquina
+
+        Arg:
+        producto (diccionario)
+
+        Return:
+        no retorna nada
+        """
+
         llave = Producto.codigo
         self.productos.setdefault(llave,Producto)
         
     def EscribirRecibo(self):
+
+        """
+        Esta funcion va a escribir el recibo de la compra del producto o productos
+
+        Arg:
+        No tienes
+
+        Return:
+        no retorna nada
+        """
+
         with open('datos.csv', 'w') as archivo_csv:
             for producto in self.productos.values():
                 archivo_csv.write(f'Nombre: {producto.nombre}\t\tCodigo: {producto.codigo}\t\tCantidad: {producto.cantidad}\n')            
+
+
+
 class User:
+
+    """
+    En esta clase define el atributo nombre del usuario
+
+    utliza el nombre de un usuario
+
+    crea un objeto user
+    """
+
+        """
+        Esta funcion constructor le da valores a los atributos
+
+        Arg:
+        nombre del usuario
+
+        Return:
+        no retorna nada
+        """
+
     def __init__(self, nombre, dinero):
         self.nombre=nombre
         self.dinero = dinero
         self.productos = None
     
     def SacarProducto(self, Codigo_prod, MaquinaExp):
+
+        """
+        Esta funcion saca producto de la maquina expendedora
+
+        Arg:
+        Codigo del producto, Maquina expendedora
+
+        Return:
+        retorna producto como el codigo del producto que se entrego
+        """
+    
+
         producto = MaquinaExp.productos[Codigo_prod]
         if (self.dinero - producto.precio) > 0:
             BarraProgreso()
@@ -60,7 +168,17 @@ class User:
         No retorna nada
         '''
 
+
 class UsuarioBase(User):
+
+    """
+    Esta clase hereda el atributo de la clase padre (user)
+
+    utiliza el nombre del ususario
+
+    crea un objeto usuarioBase
+    """
+
     def __init__(self):
         User.__init__(self,'Usuario', 300)
     def SeleccionarProducto(self):
@@ -68,25 +186,90 @@ class UsuarioBase(User):
     
     
 class UsuarioPremium_Dueño(User):
+
+    """
+    Esta clase define los atributos y metodos de un usuario premium, el dueño de la maquina
+
+    utliza el nombre, contraseña, edad y compañia del usuario premium
+
+    crea un objeto dueño
+    """
+
     def __init__ (self, nombre, contraseña, edad, compañia):
+        """
+        Esta funcion constructor le da valores a los atributos
+
+        Arg:
+        nombre, contraseña, edad, compañia
+
+        Return:
+        no retorna nada
+        """
         super().__init__(nombre, 2000)
         self.contraseña=contraseña
         self.edad=edad
         self.compañia=compañia
     
     def AgregarProducto(self, producto, maquina):
+
+        """
+        Esta funcion agraga productos a la lista 
+
+        Arg:
+        producto, maquina
+
+        Return:
+        no retorna nada
+        """
+
         llave = producto.codigo
         maquina.productos[llave] = producto
 
 class Producto:
+
+    """
+    Esta clase define atributos y metodos de los productos
+    """
+
     def __init__(self, nombre, precio, codigo, cantidad):
+
+        """
+        Esta funcion constructor le da valores a los atributos
+
+        Arg:
+        nombre, precio, codigo, cantidad de los productos 
+
+        Return:
+        no retorna nada
+        """
+
         self.nombre = nombre
         self.precio = precio
         self.codigo = codigo
         self.cantidad = cantidad
 
 class Sodas(Producto):
+
+    """
+    Esta clase define los atributos y metodo de los productos de tipo soda
+
+    utliza nombre, precio,codigo, tipo, color, contenido, marca, cantidad
+
+    crea un objeto sodas
+    """
+
     def __init__(self, nombre, precio, codigo, tipo, color, contenido, marca, cantidad):
+
+        """
+        Esta funcion constructor le da valores a los atributos
+
+        Arg:
+        nombre, precio, codigo, tipo, color, contenido, marca, cantidad del producto
+
+        Return:
+        no retorna nada
+        """
+
         super().__init__(nombre, precio, codigo, cantidad)
         self.contenido = contenido
         self.marca = marca
@@ -94,7 +277,27 @@ class Sodas(Producto):
         self.color=color
 
 class Papas(Producto):
+
+    """
+    Esta clase define los atributos y metodo de productos tipo papas
+
+    utliza nombre, precio, codigo, tipo, color, contenido, marca, cantidad
+
+    crea obketo papas
+    """
+
     def __init__(self, nombre, precio, codigo, tipo, color, contenido, marca, cantidad):
+
+        """
+        Esta funcion constructor le da valores a los atributos
+
+        Arg:
+        nombre, precio, codigo, tipo, color, contenido, marca, cantidad del producto
+
+        Return:
+        no retorna nada
+        """
+
         super().__init__(nombre, precio, codigo, cantidad)
         self.contenido = contenido
         self.marca = marca
@@ -102,7 +305,27 @@ class Papas(Producto):
         self.color=color
 
 class Galletas(Producto):
+
+    """
+    Esta clase define los atributos y metodo de productos tipo galletas
+
+    utliza nombre, precio, codigo, tipo, color, contenido, marca, cantidad
+
+    crea objeto galleta
+    """
+
     def __init__(self, nombre, precio, codigo, tipo, color, contenido, marca, cantidad):
+
+        """
+        Esta funcion constructor le da valores a los atributos
+
+        Arg:
+        nombre, precio, codigo, tipo, color, contenido, marca, cantidad del producto
+
+        Return:
+        no retorna nada
+        """
+
         super().__init__(nombre, precio, codigo, cantidad)
         self.contenido = contenido
         self.marca = marca
