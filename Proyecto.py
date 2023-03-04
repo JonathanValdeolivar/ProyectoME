@@ -60,7 +60,6 @@ class MaquinaExpendedora:
         print("Aqui se imprime la lista de valores del diccionario")
         
     def EnlistarProducto()->None:
-            pass
             
         """
         Esta funcion va a enlistar todos los productos disponibles en la maquina expendedora
@@ -71,11 +70,7 @@ class MaquinaExpendedora:
         Return:
         no retorna nada
         """
-
-        Pro=[]
-        Pro=list(diccionarioProductos.keys())
-        print(Pro)
-        # print(Pro[0].values)
+        pass
     
     def AgregarProducto(self, Producto):
 
@@ -120,6 +115,10 @@ class User:
     crea un objeto user
     """
 
+    def __init__(self, nombre, dinero):
+        self.nombre=nombre
+        self.dinero = dinero
+        self.productos = None
         """
         Esta funcion constructor le da valores a los atributos
 
@@ -129,11 +128,6 @@ class User:
         Return:
         no retorna nada
         """
-
-    def __init__(self, nombre, dinero):
-        self.nombre=nombre
-        self.dinero = dinero
-        self.productos = None
     
     def SacarProducto(self, Codigo_prod, MaquinaExp):
 
