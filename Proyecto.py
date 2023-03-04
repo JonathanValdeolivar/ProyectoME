@@ -3,6 +3,7 @@ class MaquinaExpendedora:
     def __init__(self, productos: dict, dinero: float) -> None:
         self.productos = productos
         self.dinero = dinero
+        
 
     #Usar diccionario para relacionar codigos y productos.
     def EntregarProducto(self, Codigo_llave: int)-> str:
@@ -14,16 +15,15 @@ class MaquinaExpendedora:
             pass
     
     def AgregarProducto(self, Producto):
-        self.productos[Producto.codigo] = Producto
+        llave = Producto.codigo
+        self.productos[llave] = Producto
         
     def EscribirRecibo(self):
         with open('datos.csv', 'w') as archivo_csv:
             #escritor = csv.writer(archivo_csv)
-            claves = self.productos.keys()
-            for productos in self.productos.values():
-                #archivo_csv.write(claves[i])
-                archivo_csv.write(productos+" ")
-                                
+            for producto in self.productos.values():
+                archivo_csv.write(f'Nombre{producto.nombre} Codigo {producto.codigo} Cantidad {producto.cantidad}')
+            a = 0            
 class User:
     def __init__(self, nombre):
         self.nombre=nombre
@@ -42,18 +42,15 @@ class UsuarioPremium(User):
         self.compañia=compañia
 
 class Producto:
-    def __init__(self, nombre, precio, codigo):
+    def __init__(self, nombre, precio, codigo, cantidad):
         self.nombre = nombre
         self.precio = precio
         self.codigo = codigo
-        # self.tipo=tipo
-        # self.contenido=contenido
-        # self.marca=marca
-
+        self.cantidad = cantidad
 
 class Sodas(Producto):
-    def __init__(self, nombre, precio, codigo, tipo, color, contenido, marca ):
-        super().__init__(self, nombre, precio, codigo)
+    def __init__(self, nombre, precio, codigo, tipo, color, contenido, marca, cantidad):
+        super().__init__(nombre, precio, codigo, cantidad)
         self.contenido = contenido
         self.marca = marca
         self.tipo = tipo
@@ -61,7 +58,7 @@ class Sodas(Producto):
 
 class Papas(Producto):
     def __init__(self, nombre, precio, codigo, tipo, color, contenido, marca ):
-        super().__init__(self, nombre, precio, codigo)
+        super().__init__(nombre, precio, codigo)
         self.contenido = contenido
         self.marca = marca
         self.tipo = tipo
@@ -69,7 +66,7 @@ class Papas(Producto):
 
 class Galletas(Producto):
     def __init__(self, nombre, precio, codigo, tipo, color, contenido, marca ):
-        super().__init__(self, nombre, precio, codigo)
+        super().__init__(nombre, precio, codigo)
         self.contenido = contenido
         self.marca = marca
         self.tipo = tipo
@@ -78,7 +75,9 @@ class Galletas(Producto):
 
 diccionarioProductos = dict()
 Maquina = MaquinaExpendedora(diccionarioProductos, 8000)
-# Pepsi = Sodas("Pepsi", "15.50", "0110", "Bebida", "Negro", "300ml", "PespiCola")
+Pepsi = Sodas("Pepsi", "15.50", "0110", "Bebida", "Negro", "300ml", "PespiCola", 15)
+Maquina.AgregarProducto(Pepsi)
+
 
 #Maquina.AgregarProducto()
 
