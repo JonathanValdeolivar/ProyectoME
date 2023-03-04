@@ -4,7 +4,6 @@ class MaquinaExpendedora:
         self.productos = productos
         self.dinero = dinero
         
-
     #Usar diccionario para relacionar codigos y productos.
     def EntregarProducto(self, Codigo_llave: int)-> str:
         return self.productos.get(Codigo_llave)
@@ -13,33 +12,36 @@ class MaquinaExpendedora:
         print("Aqui se imprime la lista de valores del diccionario")
     def EnlistarProducto()->None:
             pass
-    
-    def AgregarProducto(self, Producto):
-        llave = Producto.codigo
-        self.productos[llave] = Producto
-        
+
     def EscribirRecibo(self):
         with open('datos.csv', 'w') as archivo_csv:
             #escritor = csv.writer(archivo_csv)
             for producto in self.productos.values():
-                archivo_csv.write(f'Nombre: {producto.nombre} Codigo: {producto.codigo} Cantidad: {producto.cantidad}')
-            a = 0            
+                archivo_csv.write(f'Nombre: {producto.nombre}\t\tCodigo: {producto.codigo}\t\tCantidad: {producto.cantidad}\n')            
 class User:
     def __init__(self, nombre):
         self.nombre=nombre
+    
+    def SacarProducto(self, Codigo_prod, MaquinaExp):
+        producto = MaquinaExp.EntregaProductos(Codigo_prod)
+        return producto
 
-class Usuario(User):
+class UsuarioBase(User):
     def __init__(self):
         User.__init__(self,'Usuario')
     def SeleccionarProducto(self):
         pass
-class UsuarioPremium(User):
-    def __init__ (self,  usuario, contraseña, edad, compañia):
-        super().__init__(self, self.nombre)
-        self.usuario=usuario
+    
+class UsuarioPremium_Dueño(User):
+    def __init__ (self, nombre, contraseña, edad, compañia):
+        super().__init__(nombre)
         self.contraseña=contraseña
         self.edad=edad
         self.compañia=compañia
+    
+    def AgregarProducto(self, producto, maquina):
+        llave = producto.codigo
+        maquina.productos[llave] = producto
 
 class Producto:
     def __init__(self, nombre, precio, codigo, cantidad):
@@ -75,22 +77,23 @@ class Galletas(Producto):
 
 diccionarioProductos = dict()
 Maquina = MaquinaExpendedora(diccionarioProductos, 8000)
+Dueño = UsuarioPremium_Dueño("Juan Perez", "54321", "41", "Juan Expendio")
+
+#Instanciar Productos
 Pepsi = Sodas("Pepsi", "15.50", "0110", "Bebida", "Negro", "300ml", "PespiCola", 15)
-Pepsi = Sodas("Pepsi", "15.50", "0110", "Bebida", "Negro", "300ml", "PespiCola", 15)
-Maquina.AgregarProducto(Pepsi)
+Takis = Papas("Takis Fuego", "15.00", "0210", "Botana", "Morado", "250g", "Barcel", 20)
+Emperador = Galletas("Emperador", "17.00", "0310", "Galletas", "Rojo", "300g", "Gamesa", 10)
 
+#Agregar Productos
+Dueño.AgregarProducto(Pepsi, Maquina)
+Dueño.AgregarProducto(Takis, Maquina)
+Dueño.AgregarProducto(Emperador, Maquina)
 
-#Maquina.AgregarProducto()
-
-# coca=Sodas( 30, 111, 'negro', '1 litro', 'coca' ,'')
-# print(coca.agregar_producto())
-
-#print(Maquina.productos)
 Maquina.EscribirRecibo()
 
 # 1. Entregar producto.
 # 2. Seleccionar producto.
-# 3. Almacenar nuevo producto.
+# 3. Almacenar nuevo producto.   -
 # 4. Enlistar total de productos de un tipo.
 # 5. Enlistar todos los productos.
 # 6. Mostrar costos.
