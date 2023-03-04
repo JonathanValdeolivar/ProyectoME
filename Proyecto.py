@@ -56,7 +56,7 @@ class MaquinaExpendedora:
 
         print("Aqui se imprime la lista de valores del diccionario")
         
-    def EnlistarProducto()->None:
+    def EnlistarProducto(self)->None:
             
         """
         Esta funcion va a enlistar todos los productos disponibles en la maquina expendedora
@@ -67,7 +67,26 @@ class MaquinaExpendedora:
         Return:
         no retorna nada
         """
-        pass
+        print('----Bienvenido a maquina expendedora-----')
+        print('Contamos con los siguientes productos')
+        print('SODAS')
+        lp=[]
+        for a in self.productos.values():
+            if a.tipo =='Bebida':
+                lp.append(f'{a.codigo}:{a.nombre}')
+        print(lp)
+        lp=[]
+        for a in self.productos.values():
+            if a.tipo=='Botana':
+                lp.append(f'{a.codigo}:{a.nombre}')
+        print(lp)
+        lp=[]
+        for a in self.productos.values():
+            if a.tipo=='Galletas':
+                lp.append(f'{a.codigo}:{a.nombre}')
+        print(lp)
+
+
     
     def AgregarProducto(self, Producto):
 
@@ -364,6 +383,7 @@ if __name__=="__main__":
 
 
     Maquina.EscribirRecibo()
+    Maquina.EnlistarProducto()
     BarraProgreso()
 # 1. Entregar producto.
 # 2. Seleccionar producto.
