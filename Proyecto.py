@@ -5,8 +5,8 @@ class MaquinaExpendedora:
         self.dinero = dinero
 
     #Usar diccionario para relacionar codigos y productos.
-    def EntregarProducto(Codigo_llave: int, Dic_Productos: dict)-> str:
-        return Dic_Productos.get(Codigo_llave)
+    def EntregarProducto(self, Codigo_llave: int)-> str:
+        return self.productos.get(Codigo_llave)
 
     def SeleccionarProducto()->None:
         print("Aqui se imprime la lista de valores del diccionario")
@@ -16,7 +16,6 @@ class MaquinaExpendedora:
     def AgregarProducto(self, Producto):
         self.productos[Producto.codigo] = Producto
         
-
     def EscribirRecibo(self):
         with open('datos.csv', 'w') as archivo_csv:
             #escritor = csv.writer(archivo_csv)
@@ -24,10 +23,7 @@ class MaquinaExpendedora:
             for productos in self.productos.values():
                 #archivo_csv.write(claves[i])
                 archivo_csv.write(productos+" ")
-                i+=1
-                
-                
-
+                                
 class User:
     def __init__(self, nombre):
         self.nombre=nombre
@@ -79,9 +75,6 @@ class Galletas(Producto):
         self.tipo = tipo
         self.color=color
 
-
-#coca=Sodas( 30, 111, 'negro', '1 litro', 'coca' ,'')
-#print(coca.agregar_producto())
 
 diccionarioProductos = dict()
 Maquina = MaquinaExpendedora(diccionarioProductos, 8000)
