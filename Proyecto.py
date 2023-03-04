@@ -52,59 +52,31 @@ class UsuarioPremium(User):
         self.edad=edad
         self.compañia=compañia
 
-
+    
 
 class Producto:
-    def __init__(self, nombre, precio, codigo):
+    def __init__(self, nombre, precio, codigo, tipo, color, contenido, marca ):
         self.nombre = nombre
         self.precio = precio
         self.codigo = codigo
-
-    # def IniciarProductos():
-    #     dic = {110: 'CocaCola', 111:'Pepsi', 120: 'Red cola', 121: 'Monster',
-    #     130: 'Fanta', 131: 'Sprite', 140: 'Peñafiel', 141: 'Jarrito',
-    #     210: 'Takis', 211: 'Doritos', 220: 'Cheetos', 221: 'Chips', 
-    #     230: 'Sabritas', 231: 'Ruffles', 240: 'Runners', 241: 'Toreadas',
-    #     511: 'Chokis', 610: 'Emperador', 611:'Principe', 620: 'Marias',
-    #     621: 'Deliciosas', 630: 'Arcoiris', 631: 'Quaker'}#Seguir agregando productos al diccionario
-
-    
+        self.tipo=tipo
+        self.color=color
+        self.contenido=contenido
+        self.marca=marca
+    def agregar_producto(Self):
+        print('hola')
+        # opc=str(input('Seleccione el tipo de producto que desea ingresar \n1. Refresco\n2. Fritura\n3. Galletas'))
+        # if opc == '1':
+        #     coca=Sodas()
+        #     pass
 
 class Sodas(Producto):
-    
-    def agregar():
-        pass
-
-    def eliminar():
-        pass
-
-    def imprimir():
-        print(dicGa)
-    
+    pass
 
 class Papas(Producto):
-
-    def agregar():
-        pass
-
-    def eliminar():
-        pass
-
-    def imprimir():
-        print(dicGa)
-    
-    
-
+   pass
 class Galletas(Producto):
-
-    def agregar():
-        pass
-
-    def eliminar():
-        pass
-
-    def imprimir():
-        print(dicGa)
+    pass
     
 
 def main():
@@ -120,3 +92,17 @@ def main():
     MaquinaExpendedora.EnlistarProducto()
 
 
+
+    
+    
+    
+    
+
+# 1. Entregar producto.
+# 2. Seleccionar producto.
+# 3. Almacenar nuevo producto.
+# 4. Enlistar total de productos de un tipo.
+# 5. Enlistar todos los productos.
+# 6. Mostrar costos.
+# 7. Regresar cambio.
+# 8. Manejo de efectivo (mostrar total, alertar por falta de efectivo, etc.)
