@@ -38,9 +38,6 @@ class MaquinaExpendedora:
         Return:
         retorna el codigo llave del producto que esta en el diccionario
         """
-        return self.productos.get(Codigo_llave)
-
-    def EntregarProducto(self, Codigo_llave: int):
         producto = self.productos[Codigo_llave]
         producto.cantidad = -1
         return self.productos.pop(Codigo_llave)
