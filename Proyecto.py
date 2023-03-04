@@ -11,12 +11,16 @@ class MaquinaExpendedora:
 
     def SeleccionarProducto()->None:
         print("Aqui se imprime la lista de valores del diccionario")
+
     def EnlistarProducto()->None:
-            pass
+            Pro=[]
+            Pro=list(diccionarioProductos.keys())
+            print(Pro)
+            # print(Pro[0].values)
     
     def AgregarProducto(self, Producto):
         llave = Producto.codigo
-        self.productos[llave] = Producto
+        self.productos.setdefault(llave,Producto)
         
     def EscribirRecibo(self):
         with open('datos.csv', 'w') as archivo_csv:
@@ -75,8 +79,8 @@ class Galletas(Producto):
 
 diccionarioProductos = dict()
 Maquina = MaquinaExpendedora(diccionarioProductos, 8000)
-Pepsi = Sodas("Pepsi", "15.50", "0110", "Bebida", "Negro", "300ml", "PespiCola", 15)
-Pepsi = Sodas("Pepsi", "15.50", "0110", "Bebida", "Negro", "300ml", "PespiCola", 15)
+Pepsi = Sodas("Pepsi", "15.50", "0110", "Bebida", "Negro", "300ml", "PespiCola",15)
+Pepsi = Sodas("Pepsi", "15.50", "0110", "Bebida", "Negro", "300ml", "PespiCola",15)
 Maquina.AgregarProducto(Pepsi)
 
 
@@ -86,7 +90,9 @@ Maquina.AgregarProducto(Pepsi)
 # print(coca.agregar_producto())
 
 #print(Maquina.productos)
+# print(diccionarioProductos)
 Maquina.EscribirRecibo()
+MaquinaExpendedora.EnlistarProducto()
 
 # 1. Entregar producto.
 # 2. Seleccionar producto.
