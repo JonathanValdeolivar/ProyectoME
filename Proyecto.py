@@ -44,16 +44,12 @@ class Producto:
         #     pass
 
 class Sodas(Producto):
-    def __init__(self, nombre, precio, codigo, tipo='color', color, contenido, marca):
-        super().__init__(self, nombre, precio, codigo, 'Refresco', self.color, self.contenido, self.marca)
+    pass
 
 class Papas(Producto):
-    def __init__(self):
-        Producto.__init__(self, self.nombre, self.precio, self.codigo, 'Papas', self.color, self.contenido, self.marca)
-
+   pass
 class Galletas(Producto):
-    def __init__(self):
-        Producto.__init__(self, self.nombre, self.precio, self.codigo, 'Galletas', self.color, self.contenido, self.marca)
+    pass
     
 def IniciarProductos():
     dic = {110: 'CocaCola', 111:'Pepsi', 210: 'Donas'}#Seguir agregando productos al diccionario
