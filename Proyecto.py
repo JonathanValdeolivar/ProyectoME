@@ -1,40 +1,33 @@
-dic = {110: 'CocaCola', 111:'Pepsi', 120: 'Red cola', 121: 'Monster',
-        130: 'Fanta', 131: 'Sprite', 140: 'Peñafiel', 141: 'Jarrito',
-        210: 'Takis', 211: 'Doritos', 220: 'Cheetos', 221: 'Chips', 
-        230: 'Sabritas', 231: 'Ruffles', 240: 'Runners', 241: 'Toreadas',
-        511: 'Chokis', 610: 'Emperador', 611:'Principe', 620: 'Marias',
-        621: 'Deliciosas', 630: 'Arcoiris', 631: 'Quaker'}
-
-
-dicGa = {511: 'Chokis', 610: 'Emperador', 611:'Principe', 620: 'Marias',
-        621: 'Deliciosas', 630: 'Arcoiris', 631: 'Quaker'}
-
-dicPapas = {210: 'Takis', 211: 'Doritos', 220: 'Cheetos', 221: 'Chips', 
-        230: 'Sabritas', 231: 'Ruffles', 240: 'Runners', 241: 'Toreadas'}
-
-dicSodas = {110: 'CocaCola', 111:'Pepsi', 120: 'Red cola', 121: 'Monster',
-        130: 'Fanta', 131: 'Sprite', 140: 'Peñafiel', 141: 'Jarrito'}
-
+import csv
 class MaquinaExpendedora:
     def __init__(self, productos: dict, dinero: float) -> None:
         self.productos = productos
         self.dinero = dinero
-    
+
     #Usar diccionario para relacionar codigos y productos.
     def EntregarProducto(Codigo_llave: int, Dic_Productos: dict)-> str:
         return Dic_Productos.get(Codigo_llave)
-        
-    def EnlistarProducto():
-        print('\n-----Productos totales-----\n')
-        print(dic)
-        print('\n-----Galletas Disponibles----\n')
-        print(dicGa)
-        print('\n-----Papas Disponibles-----\n')
-        print(dicPapas)
-        print('\n-----Sodas Disponibles-----\n')
-        print(dicSodas)
 
+    def SeleccionarProducto()->None:
+        print("Aqui se imprime la lista de valores del diccionario")
+    def EnlistarProducto()->None:
+            pass
     
+    def AgregarProducto(self, Producto):
+        self.productos[Producto.codigo] = Producto
+        
+
+    def EscribirRecibo(self):
+        with open('datos.csv', 'w') as archivo_csv:
+            #escritor = csv.writer(archivo_csv)
+            claves = self.productos.keys()
+            for productos in self.productos.values():
+                #archivo_csv.write(claves[i])
+                archivo_csv.write(productos+" ")
+                i+=1
+                
+                
+
 class User:
     def __init__(self, nombre):
         self.nombre=nombre
@@ -57,83 +50,46 @@ class Producto:
         self.nombre = nombre
         self.precio = precio
         self.codigo = codigo
-        self.tipo=tipo
+        self.contenido = contenido
+        self.marca = marca
+        self.tipo = tipo
+
+
+        # self.tipo=tipo
         self.color=color
-        self.contenido=contenido
-        self.marca=marca
-    def agregar_producto(Self):
-        print('hola')
-        # opc=str(input('Seleccione el tipo de producto que desea ingresar \n1. Refresco\n2. Fritura\n3. Galletas'))
-        # if opc == '1':
-        #     coca=Sodas()
-        #     pass
+        # self.contenido=contenido
+        # self.marca=marca
 
-
-    # def IniciarProductos():
-    #     dic = {110: 'CocaCola', 111:'Pepsi', 120: 'Red cola', 121: 'Monster',
-    #     130: 'Fanta', 131: 'Sprite', 140: 'Peñafiel', 141: 'Jarrito',
-    #     210: 'Takis', 211: 'Doritos', 220: 'Cheetos', 221: 'Chips', 
-    #     230: 'Sabritas', 231: 'Ruffles', 240: 'Runners', 241: 'Toreadas',
-    #     511: 'Chokis', 610: 'Emperador', 611:'Principe', 620: 'Marias',
-    #     621: 'Deliciosas', 630: 'Arcoiris', 631: 'Quaker'}#Seguir agregando productos al diccionario
-
-    
 
 class Sodas(Producto):
-    
-    def agregar():
-        pass
-
-    def eliminar():
-        pass
-
-    def imprimir():
-        print(dicGa)
-    
+    def __init__(self, nombre, precio, codigo):
+        super().__init__(self, nombre, precio, codigo, 'Refresco')
 
 class Papas(Producto):
-
-    def agregar():
-        pass
-
-    def eliminar():
-        pass
-
-    def imprimir():
-        print(dicGa)
-    
-    
+    def __init__(self):
+        Producto.__init__(self, self.nombre, self.precio, self.codigo, 'Papas', self.color, self.contenido, self.marca)
 
 class Galletas(Producto):
+    def __init__(self):
+        Producto.__init__(self, self.nombre, self.precio, self.codigo, 'Galletas', self.color, self.contenido, self.marca)
 
-    def agregar():
-        pass
 
-    def eliminar():
-        pass
+#coca=Sodas( 30, 111, 'negro', '1 litro', 'coca' ,'')
+#print(coca.agregar_producto())
 
-    def imprimir():
-        print(dicGa)
+diccionarioProductos = dict()
+Maquina = MaquinaExpendedora(diccionarioProductos, 8000)
+Pepsi = Sodas("Pepsi", "15.50", "0110", "Bebida", "Negro", "300ml", "PespiCola")
 
-def main():
 
-    print('\n-----Bienvenido a TuMaquinaExpendedora-----\n')
-    nombre = str(input('Dinos tu nombre: '))
 
-    print('Bienvenido' + nombre + 'Seleccione la opcion que desee...\n'
-          + '1. Comprar' + '2. Salir')
-    opc = int(input('Opcion: '))
 
-    
-def IniciarProductos():
-    dic = {110: 'CocaCola', 111:'Pepsi', 210: 'Donas'}#Seguir agregando productos al diccionario
+Maquina.AgregarProducto()
 
-coca=Sodas( 30, 111, 'negro', '1 litro', 'coca' ,'')
-print(coca.agregar_producto())
 
-       
 
-MaquinaExpendedora.EnlistarProducto()
+print(Maquina.productos)
+Maquina.EscribirRecibo()
 
 
 
