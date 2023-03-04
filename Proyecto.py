@@ -22,7 +22,7 @@ class MaquinaExpendedora:
         with open('datos.csv', 'w') as archivo_csv:
             #escritor = csv.writer(archivo_csv)
             for producto in self.productos.values():
-                archivo_csv.write(f'Nombre{producto.nombre} Codigo {producto.codigo} Cantidad {producto.cantidad}')
+                archivo_csv.write(f'Nombre: {producto.nombre} Codigo: {producto.codigo} Cantidad: {producto.cantidad}')
             a = 0            
 class User:
     def __init__(self, nombre):
@@ -57,16 +57,16 @@ class Sodas(Producto):
         self.color=color
 
 class Papas(Producto):
-    def __init__(self, nombre, precio, codigo, tipo, color, contenido, marca ):
-        super().__init__(nombre, precio, codigo)
+    def __init__(self, nombre, precio, codigo, tipo, color, contenido, marca, cantidad):
+        super().__init__(nombre, precio, codigo, cantidad)
         self.contenido = contenido
         self.marca = marca
         self.tipo = tipo
         self.color=color
 
 class Galletas(Producto):
-    def __init__(self, nombre, precio, codigo, tipo, color, contenido, marca ):
-        super().__init__(nombre, precio, codigo)
+    def __init__(self, nombre, precio, codigo, tipo, color, contenido, marca, cantidad):
+        super().__init__(nombre, precio, codigo, cantidad)
         self.contenido = contenido
         self.marca = marca
         self.tipo = tipo
@@ -76,6 +76,7 @@ class Galletas(Producto):
 diccionarioProductos = dict()
 Maquina = MaquinaExpendedora(diccionarioProductos, 8000)
 Pepsi = Sodas("Pepsi", "15.50", "0110", "Bebida", "Negro", "300ml", "PespiCola", 15)
+Pepsi = Sodas("Pepsi", "15.50", "0110", "Bebida", "Negro", "300ml", "PespiCola", 15)
 Maquina.AgregarProducto(Pepsi)
 
 
@@ -84,7 +85,7 @@ Maquina.AgregarProducto(Pepsi)
 # coca=Sodas( 30, 111, 'negro', '1 litro', 'coca' ,'')
 # print(coca.agregar_producto())
 
-print(Maquina.productos)
+#print(Maquina.productos)
 Maquina.EscribirRecibo()
 
 # 1. Entregar producto.
