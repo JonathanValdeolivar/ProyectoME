@@ -46,7 +46,7 @@ class Usuario(User):
         pass
 class UsuarioPremium(User):
     def __init__ (self,  usuario, contraseña, edad, compañia):
-        User.__init__(self, self.nombre)
+        super().__init__(self, self.nombre)
         self.usuario=usuario
         self.contraseña=contraseña
         self.edad=edad
@@ -128,8 +128,8 @@ def main():
 def IniciarProductos():
     dic = {110: 'CocaCola', 111:'Pepsi', 210: 'Donas'}#Seguir agregando productos al diccionario
 
-coca=Sodas( 30, 111, 'negro', '1 litro', 'coca' ,'')
-print(coca.agregar_producto())
+# coca=Sodas( 30, 111, 'negro', '1 litro', 'coca' ,'')
+# print(coca.agregar_producto())
 
        
 
