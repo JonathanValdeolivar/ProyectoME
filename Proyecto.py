@@ -46,32 +46,38 @@ class UsuarioPremium(User):
         self.compañia=compañia
 
 class Producto:
-    def __init__(self, nombre, precio, codigo, tipo, color, contenido, marca ):
+    def __init__(self, nombre, precio, codigo):
         self.nombre = nombre
         self.precio = precio
         self.codigo = codigo
-        self.contenido = contenido
-        self.marca = marca
-        self.tipo = tipo
-
-
         # self.tipo=tipo
-        self.color=color
         # self.contenido=contenido
         # self.marca=marca
 
 
 class Sodas(Producto):
-    def __init__(self, nombre, precio, codigo):
-        super().__init__(self, nombre, precio, codigo, 'Refresco')
+    def __init__(self, nombre, precio, codigo, tipo, color, contenido, marca ):
+        super().__init__(self, nombre, precio, codigo)
+        self.contenido = contenido
+        self.marca = marca
+        self.tipo = tipo
+        self.color=color
 
 class Papas(Producto):
-    def __init__(self):
-        Producto.__init__(self, self.nombre, self.precio, self.codigo, 'Papas', self.color, self.contenido, self.marca)
+    def __init__(self, nombre, precio, codigo, tipo, color, contenido, marca ):
+        super().__init__(self, nombre, precio, codigo)
+        self.contenido = contenido
+        self.marca = marca
+        self.tipo = tipo
+        self.color=color
 
 class Galletas(Producto):
-    def __init__(self):
-        Producto.__init__(self, self.nombre, self.precio, self.codigo, 'Galletas', self.color, self.contenido, self.marca)
+    def __init__(self, nombre, precio, codigo, tipo, color, contenido, marca ):
+        super().__init__(self, nombre, precio, codigo)
+        self.contenido = contenido
+        self.marca = marca
+        self.tipo = tipo
+        self.color=color
 
 
 #coca=Sodas( 30, 111, 'negro', '1 litro', 'coca' ,'')
@@ -79,27 +85,15 @@ class Galletas(Producto):
 
 diccionarioProductos = dict()
 Maquina = MaquinaExpendedora(diccionarioProductos, 8000)
-Pepsi = Sodas("Pepsi", "15.50", "0110", "Bebida", "Negro", "300ml", "PespiCola")
+# Pepsi = Sodas("Pepsi", "15.50", "0110", "Bebida", "Negro", "300ml", "PespiCola")
 
-
-
-
-Maquina.AgregarProducto()
+#Maquina.AgregarProducto()
 
 # coca=Sodas( 30, 111, 'negro', '1 litro', 'coca' ,'')
 # print(coca.agregar_producto())
 
-
-
 print(Maquina.productos)
 Maquina.EscribirRecibo()
-
-
-
-    
-    
-    
-    
 
 # 1. Entregar producto.
 # 2. Seleccionar producto.
