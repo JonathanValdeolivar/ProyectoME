@@ -14,6 +14,7 @@ class MaquinaExpendedora:
 
     def SeleccionarProducto()->None:
         print("Aqui se imprime la lista de valores del diccionario")
+        
     def EnlistarProducto()->None:
             pass
 
@@ -25,16 +26,28 @@ class User:
     def __init__(self, nombre, dinero):
         self.nombre=nombre
         self.dinero = dinero
+        self.productos = None
     
     def SacarProducto(self, Codigo_prod, MaquinaExp):
         producto = MaquinaExp.productos[Codigo_prod]
         if (self.dinero - producto.precio) > 0:
             BarraProgreso()
             producto = MaquinaExp.EntregaProductos(Codigo_prod)
+            self.dinero = self.dinero-producto.precio
+            self.productos.append(producto.nombre)
             return producto    
         else:
             print("Dinero Insuficiente")
+    
+    def Informacion(self):
+        print(f'\tNombre: {self.nombre}\n\tSaldo Actual: {self.dinero}\n\tProductos: {self.productos}')
+        '''
+        Esta informacion mostrará los atributos actuales del usuario. El metodo será ejecutado en todo
+        momento para conocer la informacion con la que se cuenta
         
+        Return:
+        No retorna nada
+        '''
 
 class UsuarioBase(User):
     def __init__(self):
@@ -101,24 +114,31 @@ def BarraProgreso():
         time.sleep(0.03)
     print('\n')
     print('Entrega Lista')
+    
+    '''
+    Esta funcion simula una barra de progreso, se usará en la entrega de productos
+    
+    Return:
+    No retorna nada
+    '''
         
+if __name__=="__main__":
+    diccionarioProductos = dict()
+    Maquina = MaquinaExpendedora(diccionarioProductos, 8000)
+    Dueño = UsuarioPremium_Dueño("Juan Perez", "54321", "41", "Juan Expendio")
 
-diccionarioProductos = dict()
-Maquina = MaquinaExpendedora(diccionarioProductos, 8000)
-Dueño = UsuarioPremium_Dueño("Juan Perez", "54321", "41", "Juan Expendio")
+    #Instanciar Productos
+    Pepsi = Sodas("Pepsi", "15.50", "0110", "Bebida", "Negro", "300ml", "PespiCola", 15)
+    Takis = Papas("Takis Fuego", "15.00", "0210", "Botana", "Morado", "250g", "Barcel", 20)
+    Emperador = Galletas("Emperador", "17.00", "0310", "Galletas", "Rojo", "300g", "Gamesa", 10)
 
-#Instanciar Productos
-Pepsi = Sodas("Pepsi", "15.50", "0110", "Bebida", "Negro", "300ml", "PespiCola", 15)
-Takis = Papas("Takis Fuego", "15.00", "0210", "Botana", "Morado", "250g", "Barcel", 20)
-Emperador = Galletas("Emperador", "17.00", "0310", "Galletas", "Rojo", "300g", "Gamesa", 10)
+    #Agregar Productos
+    Dueño.AgregarProducto(Pepsi, Maquina)
+    Dueño.AgregarProducto(Takis, Maquina)
+    Dueño.AgregarProducto(Emperador, Maquina)
 
-#Agregar Productos
-Dueño.AgregarProducto(Pepsi, Maquina)
-Dueño.AgregarProducto(Takis, Maquina)
-Dueño.AgregarProducto(Emperador, Maquina)
-
-Maquina.EscribirRecibo()
-BarraProgreso()
+    Maquina.EscribirRecibo()
+    BarraProgreso()
 # 1. Entregar producto.
 # 2. Seleccionar producto.
 # 3. Almacenar nuevo producto.   -
