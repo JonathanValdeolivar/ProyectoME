@@ -32,7 +32,8 @@ class User:
             BarraProgreso()
             producto = MaquinaExp.EntregaProductos(Codigo_prod)
             return producto    
-        
+        else:
+            print("Dinero Insuficiente")
         
 
 class UsuarioBase(User):
