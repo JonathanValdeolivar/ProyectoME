@@ -10,9 +10,17 @@ class MaquinaExpendedora:
 
     def SeleccionarProducto()->None:
         print("Aqui se imprime la lista de valores del diccionario")
-    def EnlistarProducto()->None:
-            pass
 
+    def EnlistarProducto()->None:
+            Pro=[]
+            Pro=list(diccionarioProductos.keys())
+            print(Pro)
+            # print(Pro[0].values)
+    
+    def AgregarProducto(self, Producto):
+        llave = Producto.codigo
+        self.productos.setdefault(llave,Producto)
+        
     def EscribirRecibo(self):
         with open('datos.csv', 'w') as archivo_csv:
             #escritor = csv.writer(archivo_csv)
@@ -90,6 +98,7 @@ Dueño.AgregarProducto(Takis, Maquina)
 Dueño.AgregarProducto(Emperador, Maquina)
 
 Maquina.EscribirRecibo()
+MaquinaExpendedora.EnlistarProducto()
 
 # 1. Entregar producto.
 # 2. Seleccionar producto.
