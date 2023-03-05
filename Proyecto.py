@@ -105,10 +105,10 @@ class MaquinaExpendedora:
         else:
             print("Introduzca el tipo correcto: ")
             
-    def AgregarProducto(self, Producto, contraseña = None):
+    def AgregarProducto(self, Producto):
 
         """
-        Esta funcion va a agragar productos a la lista de productos disponibles de la maquina
+        Esta funcion va a agregar productos a la lista de productos disponibles de la maquina
 
         Arg:
         producto (diccionario)
@@ -116,15 +116,13 @@ class MaquinaExpendedora:
         Return:
         no retorna nada
         """
-        if contraseña != None:
-            llave = Producto.codigo
-            self.productos.setdefault(llave, Producto)
-        else:    
-            print("No tiene los permisos para realizar este proceso...")
+        
+        llave = Producto.codigo
+        self.productos.setdefault(llave, Producto)
+            
             
             
     def EscribirRecibo(self):
-
         """
         Esta funcion va a escribir el recibo de la compra del producto o productos
 
@@ -140,39 +138,52 @@ class MaquinaExpendedora:
     def Menu(self):
         return "1.Seleccionar Producto\n2.Almacenar nuevo producto (Premium)\n3. Salir\n: "
 
-    def añadir_producto(self):
-        opc=str(input('Ingrese el tipo de producto que añadirá\n1. Bebida\n2.Botana\n3.Galletas\n4.Cancelar accion'))
-        while True:
-            if opc=='1':
-                instanciarproductos('Bebida')
-                break
-            elif opc=='2':
-                instanciarproductos('Botanas')
-                break
-            elif opc=='3':
-                instanciarproductos('Galletas')
-                break
-            elif opc=='4':
-                break
-            else:
-                print('Instrucción no reconocida, intente de nuevo')
-                
-def instanciarproductos(tipo):
-    nombre=str(input('Ingrrese el nombre del producto: '))
-    precio=float(input(f'Costo de {nombre}: '))
-    codigo=float(input(f'Codigo para identificar a {nombre}'))
-    color=str(input(f'Color de {nombre}: '))
-    contenido= str(input(f'Cantidad en ml que contiene {nombre}'))
-    marca=str(input(f'Marca distribuidora de {nombre}: '))
-    cantidad=int(input(f'Cantidad del producto {nombre} que se ingresará a la maquina: '))
-    if tipo=='Bebida':
-        nombre=Sodas(nombre, precio, codigo, color, contenido, marca, cantidad)
-    elif tipo=='Botanas':
-        nombre=Papas(nombre, precio, codigo, color, contenido, marca, cantidad)
-    elif tipo =='Galletas':
-        nombre=Galletas(nombre, precio, codigo, color, contenido, marca, cantidad)
+    def Añadir_producto(self, contraseña = None):
+        if contraseña != None:
+            opc=str(input('Ingrese el tipo de producto que añadirá\n1. Bebida\n2.Botana\n3.Galletas\n4.Cancelar accion'))
+            while True:
+                if opc=='1':
+                    producto = self.InstanciarProductos('Bebida')
+                    break
+                elif opc=='2':
+                    producto = self.InstanciarProductos('Botana')
+                    break
+                elif opc=='3':
+                    producto = self.InstanciarProductos('Galletas')
+                    break
+                elif opc=='4':
+                    break
+                else:
+                    print('Instrucción no reconocida, intente de nuevo')
+        else:
+            print("No tiene los permisos para realizar este proceso...")
+            
+        self.AgregarProducto(producto, contraseña)
+        
+        '''
+        Esta funcion es diferente a AgregarProducto, la funcion de este metodo es añadir un objeto
+        desde teclado, haciendo uso de la funcion 'InstanciarProducto' y creando el objeto dentro de
+        la funcion. Al final de la funcion, se hace uso del mismo metodo de AñadirProducto para añadirlo
+        a la maquina.
+        
+        '''
+    def InstanciarProductos(tipo):
+        nombre=str(input('Ingrrese el nombre del producto: '))
+        precio=float(input(f'Costo de {nombre}: '))
+        codigo=float(input(f'Codigo para identificar a {nombre}'))
+        color=str(input(f'Color de {nombre}: '))
+        contenido= str(input(f'Cantidad en ml que contiene {nombre}'))
+        marca=str(input(f'Marca distribuidora de {nombre}: '))
+        cantidad=int(input(f'Cantidad del producto {nombre} que se ingresará a la maquina: '))
+        if tipo=='Bebida':
+            producto=Sodas(nombre, precio, codigo, 'Bebida', color, contenido, marca, cantidad)
+        elif tipo=='Botana':
+            producto=Papas(nombre, precio, codigo, 'Botana', color, contenido, marca, cantidad)
+        elif tipo =='Galletas':
+            producto=Galletas(nombre, precio, codigo, 'Galletas', color, contenido, marca, cantidad)
+        return producto
 
-def crearusuario():
+def CrearUsuario():
     nombre=str(input('Ingresee su nombre:'))
     while 1 :
         contraseña=str(input('Contraseña: '))
@@ -181,7 +192,7 @@ def crearusuario():
             break
         print('Las contraseñas no coinciden, intente de nuevo')
     edad=int(input('Ingrese su edad: '))
-    compañia=str(input('Conpañía para la que trabaja'))
+    compañia=str(input('Compañía para la que trabaja'))
     nombre=UsuarioPremium_Dueño(nombre, contraseña, edad, compañia)
     
 class User:
@@ -196,7 +207,7 @@ class User:
         self.nombre=nombre
         self.dinero = dinero
         self.productos = []
-        self.__contraseña = None
+        self.contraseña = None
         """
         Esta funcion constructor le da valores a los atributos
 
@@ -465,7 +476,7 @@ if __name__=="__main__":
             Usuariox.Comprar(Maquina)
         if opcion == 2:
             Usuariox.Informacion()
-            Maquina.AgregarProducto(Usuariox.__contraseña)
+            Maquina.Añadir_producto(Usuariox.contraseña)
         if opcion == 3:
             exit
 
