@@ -24,8 +24,6 @@ class MaquinaExpendedora:
 
         self.productos = productos
         self.dinero = dinero
-        
-    #Usar diccionario para relacionar codigos y productos.
 
     def EntregarProducto(self, Codigo_llave: int)-> str:
 
@@ -102,7 +100,7 @@ class MaquinaExpendedora:
         else:
             print("Introduzca el tipo correcto: ")
             
-    def AgregarProducto(self, Producto):
+    def AgregarProducto(self, Producto, contraseña = None):
 
         """
         Esta funcion va a agragar productos a la lista de productos disponibles de la maquina
@@ -113,10 +111,13 @@ class MaquinaExpendedora:
         Return:
         no retorna nada
         """
-
-        llave = Producto.codigo
-        self.productos.setdefault(llave, Producto)
-        
+        if contraseña != None:
+            llave = Producto.codigo
+            self.productos.setdefault(llave, Producto)
+        else:    
+            print("No tiene los permisos para realizar este proceso...")
+            
+            
     def EscribirRecibo(self):
 
         """
@@ -132,6 +133,9 @@ class MaquinaExpendedora:
             for producto in self.productos.values():
                 archivo_csv.write(f'Nombre: {producto.nombre}\t\tCodigo: {producto.codigo}\t\tCantidad: {producto.cantidad}\n')            
 
+    def Menu(self):
+        print("1.Seleccionar Producto\n2.Almacenar nuevo producto (Premium)")
+
 class User:
     """
     En esta clase define el atributo nombre del usuario
@@ -144,6 +148,7 @@ class User:
         self.nombre=nombre
         self.dinero = dinero
         self.productos = None
+        self.__contraseña = None
         """
         Esta funcion constructor le da valores a los atributos
 
@@ -191,7 +196,6 @@ class User:
         No retorna nada
         '''
 
-
 class UsuarioBase(User):
 
     """
@@ -206,7 +210,6 @@ class UsuarioBase(User):
         User.__init__(self,'Usuario', 300)
     def SeleccionarProducto(self):
         pass
-    
     
 class UsuarioPremium_Dueño(User):
 
@@ -232,21 +235,6 @@ class UsuarioPremium_Dueño(User):
         self.contraseña=contraseña
         self.edad=edad
         self.compañia=compañia
-    
-    def AgregarProducto(self, producto, maquina):
-
-        """
-        Esta funcion agraga productos a la lista 
-
-        Arg:
-        producto, maquina
-
-        Return:
-        no retorna nada
-        """
-
-        llave = producto.codigo
-        maquina.productos[llave] = producto
 
 class Producto:
 
@@ -268,7 +256,6 @@ class Producto:
         Return:
         no retorna nada
         """
-        
 
 class Sodas(Producto):
 
@@ -354,7 +341,6 @@ class Galletas(Producto):
         self.tipo = tipo
         self.color=color
 
-
 def BarraProgreso():
     cadena = '-' * 50
     caracter = '#'
@@ -385,20 +371,40 @@ if __name__=="__main__":
 
     #Instanciar Productos
     Pepsi = Sodas("Pepsi", "15.50", "0110", "Bebida", "Negro", "300ml", "PespiCola", 15)
+    Coca = Sodas('Cocacola', '18.00', '0111', 'Bebida', 'Negro', '600ml', 'Cocacola', 25)
+    fanta = Sodas('Fanta', '16.00', '0112', 'Bebida', 'Naranja', '500ml', 'Fanta', 18)
+    Seven = Sodas('Seven up', '16.50', '0115', 'Bebidas', 'verde', '500ml', 'Seven up', 15)
+    peñaFiel = Sodas('Peñafiel', '15.00', '0117', 'Bebidas', 'transparente', '600ml', 'Peñafiel', 10)
     Takis = Papas("Takis Fuego", "15.00", "0210", "Botana", "Morado", "250g", "Barcel", 20)
+    Chips = Papas('Chips Fuego', '17.00', '0211', 'Botana', 'Morado', '30g', 'Barcel', 14)
+    cheetos = Papas('cheetos', '12.00', '0212', 'Botana', 'Naranja', '30g', 'Cheetos', 13) 
+    runners = Papas('Runners', '15.00', '0215', 'Botana', 'Rojo', '28g', 'Barcel', 7)
+    Doritos = Papas('Doritos Nacho', '16.00', '0217', 'Botana', 'Naranja', '32g', 'Barcel', 15)
     Emperador = Galletas("Emperador", "17.00", "0310", "Galletas", "Rojo", "300g", "Gamesa", 10)
+    Principe = Galletas('Principe', '18.00', '0311', 'Galletas', 'Azul', '200g', 'Marinela', 6)
+    Arcoiris = Galletas('Arcoiris', '15.00', '0312', 'Galletas', 'Blanco', '250g', 'Gamesa', 4)
+    Maria = Galletas('Maria', '14.00', '0315', 'Galletas', 'Naranja', '225g', 'Gamesa', 6)
+    Deliciosas = Galletas('Deliciosas', '16.50', '0317', 'Galletas', 'Rosa', '200g', 'Gamesa', 5)
+
 
     #Agregar Productos
-    Dueño.AgregarProducto(Pepsi, Maquina)
-    Dueño.AgregarProducto(Takis, Maquina)
-    Dueño.AgregarProducto(Emperador, Maquina)
+    Maquina.AgregarProducto(Pepsi, "ContraseñaMaestra")
+    Maquina.AgregarProducto(Coca, "ContraseñaMaestra")
+    Maquina.AgregarProducto(fanta, "ContraseñaMaestra")
+    Maquina.AgregarProducto(Seven, "ContraseñaMaestra")
+    Maquina.AgregarProducto(peñaFiel, "ContraseñaMaestra")
+    Maquina.AgregarProducto(Takis, "ContraseñaMaestra")
+    Maquina.AgregarProducto(Chips, "ContraseñaMaestra")
+    Maquina.AgregarProducto(cheetos, "ContraseñaMaestra")
+    Maquina.AgregarProducto(runners, "ContraseñaMaestra")
+    Maquina.AgregarProducto(Doritos, "ContraseñaMaestra")
+    Maquina.AgregarProducto(Emperador, "ContraseñaMaestra")
+    Maquina.AgregarProducto(Principe, "ContraseñaMaestra")
+    Maquina.AgregarProducto(Arcoiris, "ContraseñaMaestra")
+    Maquina.AgregarProducto(Maria, "ContraseñaMaestra")
+    Maquina.AgregarProducto(Deliciosas, "ContraseñaMaestra")
 
 
-    Maquina.EscribirRecibo()
-    Maquina.EnlistarProducto()
-    BarraProgreso()
-    
-    
 # 1. Entregar producto.
 # 2. Seleccionar producto.
 # 3. Almacenar nuevo producto.   -
