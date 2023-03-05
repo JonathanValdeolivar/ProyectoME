@@ -136,29 +136,33 @@ class MaquinaExpendedora:
             for producto in self.productos.values():
                 archivo_csv.write(f'Nombre: {producto.nombre}\t\tCodigo: {producto.codigo}\t\tCantidad: {producto.cantidad}\n')  
     def Menu(self):
-        return "1.Seleccionar Producto\n2.Almacenar nuevo producto (Premium)\n3. Salir\n: "
+        return "\n\n1.Seleccionar Producto\n2.Almacenar nuevo producto (Premium)\n3. Salir\n: "
 
     def Añadir_producto(self, contraseña = None):
         if contraseña != None:
+            producto = None
             opc=str(input('Ingrese el tipo de producto que añadirá\n1. Bebida\n2.Botana\n3.Galletas\n4.Cancelar accion'))
             while True:
                 if opc=='1':
                     producto = self.InstanciarProductos('Bebida')
+                    self.AgregarProducto(producto)
                     break
                 elif opc=='2':
                     producto = self.InstanciarProductos('Botana')
+                    self.AgregarProducto(producto)
                     break
                 elif opc=='3':
                     producto = self.InstanciarProductos('Galletas')
+                    self.AgregarProducto(producto)
                     break
                 elif opc=='4':
                     break
                 else:
                     print('Instrucción no reconocida, intente de nuevo')
         else:
-            print("No tiene los permisos para realizar este proceso...")
+            print("\nNo tiene los permisos para realizar este proceso...")
             
-        self.AgregarProducto(producto, contraseña)
+        
         
         '''
         Esta funcion es diferente a AgregarProducto, la funcion de este metodo es añadir un objeto
@@ -451,21 +455,21 @@ if __name__=="__main__":
 
 
     #Agregar Productos
-    Maquina.AgregarProducto(Pepsi, "ContraseñaMaestra")
-    Maquina.AgregarProducto(Coca, "ContraseñaMaestra")
-    Maquina.AgregarProducto(fanta, "ContraseñaMaestra")
-    Maquina.AgregarProducto(Seven, "ContraseñaMaestra")
-    Maquina.AgregarProducto(peñaFiel, "ContraseñaMaestra")
-    Maquina.AgregarProducto(Takis, "ContraseñaMaestra")
-    Maquina.AgregarProducto(Chips, "ContraseñaMaestra")
-    Maquina.AgregarProducto(cheetos, "ContraseñaMaestra")
-    Maquina.AgregarProducto(runners, "ContraseñaMaestra")
-    Maquina.AgregarProducto(Doritos, "ContraseñaMaestra")
-    Maquina.AgregarProducto(Emperador, "ContraseñaMaestra")
-    Maquina.AgregarProducto(Principe, "ContraseñaMaestra")
-    Maquina.AgregarProducto(Arcoiris, "ContraseñaMaestra")
-    Maquina.AgregarProducto(Maria, "ContraseñaMaestra")
-    Maquina.AgregarProducto(Deliciosas, "ContraseñaMaestra")
+    Maquina.AgregarProducto(Pepsi)
+    Maquina.AgregarProducto(Coca)
+    Maquina.AgregarProducto(fanta)
+    Maquina.AgregarProducto(Seven)
+    Maquina.AgregarProducto(peñaFiel)
+    Maquina.AgregarProducto(Takis)
+    Maquina.AgregarProducto(Chips)
+    Maquina.AgregarProducto(cheetos)
+    Maquina.AgregarProducto(runners)
+    Maquina.AgregarProducto(Doritos)
+    Maquina.AgregarProducto(Emperador)
+    Maquina.AgregarProducto(Principe)
+    Maquina.AgregarProducto(Arcoiris)
+    Maquina.AgregarProducto(Maria)
+    Maquina.AgregarProducto(Deliciosas)
 
     while(1):   
         Maquina.EscribirRecibo()
