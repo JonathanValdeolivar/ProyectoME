@@ -65,24 +65,9 @@ class MaquinaExpendedora:
         """
         print('----Bienvenido a maquina expendedora-----')
         print('Contamos con los siguientes productos')
-
-        print('SODAS')
         lp=[]
         for a in self.productos.values():
-            if a.tipo =='Bebida':
-                lp.append(f'{a.codigo}:{a.nombre}')
-        print(lp)
-        lp=[]
-        print('Botanas')
-        for a in self.productos.values():
-            if a.tipo=='Botana':
-                lp.append(f'{a.codigo}:{a.nombre}')
-        print(lp)
-        lp=[]
-        print('Galletas')
-        lp=[] 
-        for a in self.productos.values():
-            lp.append(f'{a.codigo} : {a.nombre} \t ${a.precio}')
+            lp.append(f'{a.codigo} : {a.nombre}     ${a.precio}')
         print(lp)
 
     def EnlistarProductos_Tipo(self)->None:
@@ -96,20 +81,26 @@ class MaquinaExpendedora:
         no retorna nada
         """
         print('----Bienvenido a maquina expendedora-----')
+        print('Bebida, Botana, Galletas. Son los tipos de productos con los que esta maquina cuenta')
         tipo = str(input("Introduzca el tipo de productos que desea mostrar: "))
-        if tipo.lower() == "bebida" or tipo.lower() == "botana" or tipo.lower() == "galletas":        
-            lp=[] 
+        lp=[] 
+        if tipo.lower() == "bebida":        
+            print('BEBIDAS')
             for a in self.productos.values():
                 if a.tipo =='Bebida':
-                    lp.append(f'{a.codigo} : {a.nombre} \t ${a.precio}')
+                    lp.append(f'{a.codigo} : {a.nombre}     ${a.precio}')
             print(lp)
+        if tipo.lower() == "botana":
+            print('BOTANAS')
             for a in self.productos.values():
                 if a.tipo=='Botana':
-                    lp.append(f'{a.codigo} : {a.nombre} \t  ${a.precio}')
+                    lp.append(f'{a.codigo} : {a.nombre}     ${a.precio}')
             print(lp)
+        if tipo.lower() == "galletas":
+            print('GALLETAS')
             for a in self.productos.values():
                 if a.tipo=='Galletas':
-                    lp.append(f'{a.codigo} : {a.nombre} \t ${a.precio}')
+                    lp.append(f'{a.codigo} : {a.nombre}     ${a.precio}')
             print(lp)
         else:
             print("Introduzca el tipo correcto: ")
@@ -182,8 +173,17 @@ def instanciarproductos(tipo):
         nombre=Galletas(nombre, precio, codigo, color, contenido, marca, cantidad)
 
 def crearusuario():
-    pass       
-
+    nombre=str(input('Ingresee su nombre:'))
+    while 1 :
+        contraseña=str(input('Contraseña: '))
+        contraseña1=str(input('Repita su contraseña: '))
+        if contraseña==contraseña1:
+            break
+        print('Las contraseñas no coinciden, intente de nuevo')
+    edad=int(input('Ingrese su edad: '))
+    compañia=str(input('Conpañía para la que trabaja'))
+    nombre=UsuarioPremium_Dueño(nombre, contraseña, edad, compañia)
+    
 class User:
     """
     En esta clase define el atributo nombre del usuario
