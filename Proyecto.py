@@ -24,8 +24,6 @@ class MaquinaExpendedora:
 
         self.productos = productos
         self.dinero = dinero
-        
-    #Usar diccionario para relacionar codigos y productos.
 
     def EntregarProducto(self, Codigo_llave: int)-> str:
 
@@ -36,26 +34,24 @@ class MaquinaExpendedora:
         Codigo_llave de tipo entero
 
         Return:
-        retorna el codigo llave del producto que esta en el diccionario
+        retorna el producto que esta en el diccionario
         """
         producto = self.productos[Codigo_llave]
-        producto.cantidad = -1
-        return self.productos.pop(Codigo_llave)
+        if producto.cantidad > 0:    
+            producto.cantidad = producto.cantidad-1
+            return self.productos.get(Codigo_llave)
+        if producto.cantidad < 0:
+            print("El producto se encuentra agotado :C")
 
-    def SeleccionarProducto()->None:
-
-        """
-        Esta funcion sirve para seleccionar el producto que se desee
-
-        Arg:
-        no tiene 
-
-        Return:
-        no retorna nada
-        """
-
-        print("Aqui se imprime la lista de valores del diccionario")
+    def SeleccionarProducto(self)->None:
+        print("Seleccione la opcion a realizar: ")
         
+        opcion = int(input("1. Enlistar todos los productos\n2. Enlistar Productos por tipo\n: "))
+        if(opcion == 1):
+            self.EnlistarProducto()
+        if(opcion == 2):
+            self.EnlistarProductos_Tipo()
+            
     def EnlistarProducto(self)->None:
             
         """
@@ -69,6 +65,7 @@ class MaquinaExpendedora:
         """
         print('----Bienvenido a maquina expendedora-----')
         print('Contamos con los siguientes productos')
+
         print('SODAS')
         lp=[]
         for a in self.productos.values():
@@ -83,14 +80,41 @@ class MaquinaExpendedora:
         print(lp)
         lp=[]
         print('Galletas')
+        lp=[] 
         for a in self.productos.values():
-            if a.tipo=='Galletas':
-                lp.append(f'{a.codigo}:{a.nombre}')
+            lp.append(f'{a.codigo} : {a.nombre} \t ${a.precio}')
         print(lp)
 
+    def EnlistarProductos_Tipo(self)->None:
+        """
+        Esta funcion va a enlistar todos los productos disponibles en la maquina expendedora
 
-    
-    def AgregarProducto(self, Producto):
+        Arg:
+        No tiene
+
+        Return:
+        no retorna nada
+        """
+        print('----Bienvenido a maquina expendedora-----')
+        tipo = str(input("Introduzca el tipo de productos que desea mostrar: "))
+        if tipo.lower() == "bebida" or tipo.lower() == "botana" or tipo.lower() == "galletas":        
+            lp=[] 
+            for a in self.productos.values():
+                if a.tipo =='Bebida':
+                    lp.append(f'{a.codigo} : {a.nombre} \t ${a.precio}')
+            print(lp)
+            for a in self.productos.values():
+                if a.tipo=='Botana':
+                    lp.append(f'{a.codigo} : {a.nombre} \t  ${a.precio}')
+            print(lp)
+            for a in self.productos.values():
+                if a.tipo=='Galletas':
+                    lp.append(f'{a.codigo} : {a.nombre} \t ${a.precio}')
+            print(lp)
+        else:
+            print("Introduzca el tipo correcto: ")
+            
+    def AgregarProducto(self, Producto, contraseña = None):
 
         """
         Esta funcion va a agragar productos a la lista de productos disponibles de la maquina
@@ -101,10 +125,13 @@ class MaquinaExpendedora:
         Return:
         no retorna nada
         """
-
-        llave = Producto.codigo
-        self.productos.setdefault(llave,Producto)
-        
+        if contraseña != None:
+            llave = Producto.codigo
+            self.productos.setdefault(llave, Producto)
+        else:    
+            print("No tiene los permisos para realizar este proceso...")
+            
+            
     def EscribirRecibo(self):
 
         """
@@ -116,10 +143,11 @@ class MaquinaExpendedora:
         Return:
         no retorna nada
         """
-
         with open('datos.csv', 'w') as archivo_csv:
             for producto in self.productos.values():
                 archivo_csv.write(f'Nombre: {producto.nombre}\t\tCodigo: {producto.codigo}\t\tCantidad: {producto.cantidad}\n')  
+    def Menu(self):
+        return "1.Seleccionar Producto\n2.Almacenar nuevo producto (Premium)\n3. Salir\n: "
 
     def añadir_producto(self):
         opc=str(input('Ingrese el tipo de producto que añadirá\n1. Bebida\n2.Botana\n3.Galletas\n4.Cancelar accion'))
@@ -137,9 +165,7 @@ class MaquinaExpendedora:
                 break
             else:
                 print('Instrucción no reconocida, intente de nuevo')
-
-
-
+                
 def instanciarproductos(tipo):
     nombre=str(input('Ingrrese el nombre del producto: '))
     precio=float(input(f'Costo de {nombre}: '))
@@ -156,12 +182,11 @@ def instanciarproductos(tipo):
         nombre=Galletas(nombre, precio, codigo, color, contenido, marca, cantidad)
 
 def crearusuario():
-    pass
-class User:
+    pass       
 
+class User:
     """
     En esta clase define el atributo nombre del usuario
-
     utliza el nombre de un usuario
 
     crea un objeto user
@@ -170,7 +195,8 @@ class User:
     def __init__(self, nombre, dinero):
         self.nombre=nombre
         self.dinero = dinero
-        self.productos = None
+        self.productos = []
+        self.__contraseña = None
         """
         Esta funcion constructor le da valores a los atributos
 
@@ -180,30 +206,35 @@ class User:
         Return:
         no retorna nada
         """
-    
-    def SacarProducto(self, Codigo_prod, MaquinaExp):
 
+    def Comprar(self, MaquinaExp):
+        
+        MaquinaExp.SeleccionarProducto()
+        Codigo_prod = str(input("Introduzca el codigo del producto: "))
+        producto = MaquinaExp.EntregarProducto(Codigo_prod)
+        
+        dineroIntr = float(input("Introduzca el dinero a pagar: "))
+        if dineroIntr >= producto.precio:
+            BarraProgreso()
+            self.dinero = self.dinero-dineroIntr
+            cambio = dineroIntr-producto.precio
+            print(f"Cambio: {cambio}")
+            self.dinero = self.dinero + cambio
+            self.productos.append(producto.nombre)
+            return MaquinaExp.EntregarProducto(Codigo_prod)   
+        else:
+            print("Dinero Insuficiente")
+            
         """
-        Esta funcion saca producto de la maquina expendedora
+        Esta funcion...
 
         Arg:
-        Codigo del producto, Maquina expendedora
+        Maquina expendedora
 
         Return:
         retorna producto como el codigo del producto que se entrego
         """
-    
 
-        producto = MaquinaExp.productos[Codigo_prod]
-        if (self.dinero - producto.precio) > 0:
-            BarraProgreso()
-            producto = MaquinaExp.EntregaProductos(Codigo_prod)
-            self.dinero = self.dinero-producto.precio
-            self.productos.append(producto.nombre)
-            return producto    
-        else:
-            print("Dinero Insuficiente")
-    
     def Informacion(self):
         print(f'\tNombre: {self.nombre}\n\tSaldo Actual: {self.dinero}\n\tProductos: {self.productos}')
         '''
@@ -213,7 +244,6 @@ class User:
         Return:
         No retorna nada
         '''
-
 
 class UsuarioBase(User):
 
@@ -229,7 +259,6 @@ class UsuarioBase(User):
         User.__init__(self,'Usuario', 300)
     def SeleccionarProducto(self):
         pass
-    
     
 class UsuarioPremium_Dueño(User):
 
@@ -255,21 +284,6 @@ class UsuarioPremium_Dueño(User):
         self.contraseña=contraseña
         self.edad=edad
         self.compañia=compañia
-    
-    def AgregarProducto(self, producto, maquina):
-
-        """
-        Esta funcion agraga productos a la lista 
-
-        Arg:
-        producto, maquina
-
-        Return:
-        no retorna nada
-        """
-
-        llave = producto.codigo
-        maquina.productos[llave] = producto
 
 class Producto:
 
@@ -278,7 +292,10 @@ class Producto:
     """
 
     def __init__(self, nombre, precio, codigo, cantidad):
-
+        self.nombre = nombre
+        self.precio = precio
+        self.codigo = codigo
+        self.cantidad = cantidad
         """
         Esta funcion constructor le da valores a los atributos
 
@@ -288,11 +305,6 @@ class Producto:
         Return:
         no retorna nada
         """
-
-        self.nombre = nombre
-        self.precio = precio
-        self.codigo = codigo
-        self.cantidad = cantidad
 
 class Sodas(Producto):
 
@@ -329,7 +341,7 @@ class Papas(Producto):
 
     utliza nombre, precio, codigo, tipo, color, contenido, marca, cantidad
 
-    crea obketo papas
+    crea objeto papas
     """
 
     def __init__(self, nombre, precio, codigo, tipo, color, contenido, marca, cantidad):
@@ -378,7 +390,6 @@ class Galletas(Producto):
         self.tipo = tipo
         self.color=color
 
-
 def BarraProgreso():
     cadena = '-' * 50
     caracter = '#'
@@ -405,47 +416,60 @@ def BarraProgreso():
 if __name__=="__main__":
     diccionarioProductos = dict()
     Maquina = MaquinaExpendedora(diccionarioProductos, 8000)
+    
     Dueño = UsuarioPremium_Dueño("Juan Perez", "54321", "41", "Juan Expendio")
-
+    Usuariox = UsuarioBase()
+    
     #Instanciar Productos
-    Pepsi = Sodas("Pepsi", "15.50", "0110", "Bebida", "Negro", "300ml", "PespiCola", 15)
-    Coca = Sodas('Cocacola', '18.00', '0111', 'Bebida', 'Negro', '600ml', 'Cocacola', 25)
-    fanta = Sodas('Fanta', '16.00', '0112', 'Bebida', 'Naranja', '500ml', 'Fanta', 18)
-    Seven = Sodas('Seven up', '16.50', '0115', 'Bebidas', 'verde', '500ml', 'Seven up', 15)
-    peñaFiel = Sodas('Peñafiel', '15.00', '0117', 'Bebidas', 'transparente', '600ml', 'Peñafiel', 10)
-    Takis = Papas("Takis Fuego", "15.00", "0210", "Botana", "Morado", "250g", "Barcel", 20)
-    Chips = Papas('Chips Fuego', '17.00', '0211', 'Botana', 'Morado', '30g', 'Barcel', 14)
-    cheetos = Papas('cheetos', '12.00', '0212', 'Botana', 'Naranja', '30g', 'Cheetos', 13) 
-    runners = Papas('Runners', '15.00', '0215', 'Botana', 'Rojo', '28g', 'Barcel', 7)
-    Doritos = Papas('Doritos Nacho', '16.00', '0217', 'Botana', 'Naranja', '32g', 'Barcel', 15)
-    Emperador = Galletas("Emperador", "17.00", "0310", "Galletas", "Rojo", "300g", "Gamesa", 10)
-    Principe = Galletas('Principe', '18.00', '0311', 'Galletas', 'Azul', '200g', 'Marinela', 6)
-    Arcoiris = Galletas('Arcoiris', '15.00', '0312', 'Galletas', 'Blanco', '250g', 'Gamesa', 4)
-    Maria = Galletas('Maria', '14.00', '0315', 'Galletas', 'Naranja', '225g', 'Gamesa', 6)
-    Deliciosas = Galletas('Deliciosas', '16.50', '0317', 'Galletas', 'Rosa', '200g', 'Gamesa', 5)
+    
+    Pepsi = Sodas("Pepsi", 15.50, "0110", "Bebida", "Negro", "300ml", "PespiCola", 15)
+    Coca = Sodas('Cocacola', 18.00, '0111', 'Bebida', 'Negro', '600ml', 'Cocacola', 25)
+    fanta = Sodas('Fanta', 16.00, '0112', 'Bebida', 'Naranja', '500ml', 'Fanta', 18)
+    Seven = Sodas('Seven up', 16.5, '0115', 'Bebidas', 'verde', '500ml', 'Seven up', 15)
+    peñaFiel = Sodas('Peñafiel', 15.00, '0117', 'Bebidas', 'transparente', '600ml', 'Peñafiel', 10)
+    Takis = Papas("Takis Fuego", 15.00, "0210", "Botana", "Morado", "250g", "Barcel", 20)
+    Chips = Papas('Chips Fuego', 17.00, '0211', 'Botana', 'Morado', '30g', 'Barcel', 14)
+    cheetos = Papas('cheetos', 12.00, '0212', 'Botana', 'Naranja', '30g', 'Cheetos', 13) 
+    runners = Papas('Runners', 15.00, '0215', 'Botana', 'Rojo', '28g', 'Barcel', 7)
+    Doritos = Papas('Doritos Nacho', 16.00, '0217', 'Botana', 'Naranja', '32g', 'Barcel', 15)
+    Emperador = Galletas("Emperador", 17.00, "0310", "Galletas", "Rojo", "300g", "Gamesa", 10)
+    Principe = Galletas('Principe', 18.00, '0311', 'Galletas', 'Azul', '200g', 'Marinela', 6)
+    Arcoiris = Galletas('Arcoiris', 15.00, '0312', 'Galletas', 'Blanco', '250g', 'Gamesa', 4)
+    Maria = Galletas('Maria', 14.00, '0315', 'Galletas', 'Naranja', '225g', 'Gamesa', 6)
+    Deliciosas = Galletas('Deliciosas', 16.50, '0317', 'Galletas', 'Rosa', '200g', 'Gamesa', 5)
 
 
     #Agregar Productos
-    Dueño.AgregarProducto(Pepsi, Maquina)
-    Dueño.AgregarProducto(Coca, Maquina)
-    Dueño.AgregarProducto(fanta, Maquina)
-    Dueño.AgregarProducto(Seven, Maquina)
-    Dueño.AgregarProducto(peñaFiel, Maquina)
-    Dueño.AgregarProducto(Takis, Maquina)
-    Dueño.AgregarProducto(Chips, Maquina)
-    Dueño.AgregarProducto(cheetos, Maquina)
-    Dueño.AgregarProducto(runners, Maquina)
-    Dueño.AgregarProducto(Doritos, Maquina)
-    Dueño.AgregarProducto(Emperador, Maquina)
-    Dueño.AgregarProducto(Principe, Maquina)
-    Dueño.AgregarProducto(Arcoiris, Maquina)
-    Dueño.AgregarProducto(Maria, Maquina)
-    Dueño.AgregarProducto(Deliciosas, Maquina)
+    Maquina.AgregarProducto(Pepsi, "ContraseñaMaestra")
+    Maquina.AgregarProducto(Coca, "ContraseñaMaestra")
+    Maquina.AgregarProducto(fanta, "ContraseñaMaestra")
+    Maquina.AgregarProducto(Seven, "ContraseñaMaestra")
+    Maquina.AgregarProducto(peñaFiel, "ContraseñaMaestra")
+    Maquina.AgregarProducto(Takis, "ContraseñaMaestra")
+    Maquina.AgregarProducto(Chips, "ContraseñaMaestra")
+    Maquina.AgregarProducto(cheetos, "ContraseñaMaestra")
+    Maquina.AgregarProducto(runners, "ContraseñaMaestra")
+    Maquina.AgregarProducto(Doritos, "ContraseñaMaestra")
+    Maquina.AgregarProducto(Emperador, "ContraseñaMaestra")
+    Maquina.AgregarProducto(Principe, "ContraseñaMaestra")
+    Maquina.AgregarProducto(Arcoiris, "ContraseñaMaestra")
+    Maquina.AgregarProducto(Maria, "ContraseñaMaestra")
+    Maquina.AgregarProducto(Deliciosas, "ContraseñaMaestra")
+
+    while(1):   
+        Maquina.EscribirRecibo()
+        opcion = int(input(Maquina.Menu()))
+        
+        if opcion == 1:
+            Usuariox.Informacion()
+            Usuariox.Comprar(Maquina)
+        if opcion == 2:
+            Usuariox.Informacion()
+            Maquina.AgregarProducto(Usuariox.__contraseña)
+        if opcion == 3:
+            exit
 
 
-    Maquina.EscribirRecibo()
-    Maquina.EnlistarProducto()
-    BarraProgreso()
 # 1. Entregar producto.
 # 2. Seleccionar producto.
 # 3. Almacenar nuevo producto.   -
