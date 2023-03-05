@@ -162,8 +162,24 @@ class User:
         Return:
         no retorna nada
         """
-    
-    def SacarProducto(self, Codigo_prod, MaquinaExp):
+
+    def Comprar(self, MaquinaExp):
+        
+        MaquinaExp.SeleccionarProducto()
+        Codigo_prod = input("Introduzca el codigo del producto: ")
+        producto = MaquinaExp.EntregaProductos(Codigo_prod)
+        
+        dineroIntr = input("Introduzca el dinero a pagar: ")
+        if (dineroIntr - producto.precio) > 0:
+            BarraProgreso()
+            self.dinero = self.dinero-dineroIntr
+            cambio = self.dinero+(dineroIntr-producto.precio)
+            print(f"Cambio: {cambio}")
+            self.dinero = self.dinero + cambio
+            self.productos.append(producto.nombre)
+            return MaquinaExp.EntregaProducto(Codigo_prod)   
+        else:
+            print("Dinero Insuficiente")
         """
         Esta funcion saca producto de la maquina expendedora
 
@@ -173,23 +189,6 @@ class User:
         Return:
         retorna producto como el codigo del producto que se entrego
         """
-        producto = MaquinaExp.productos[Codigo_prod]
-        
-            
-    
-    def Comprar(self, MaquinaExp):
-        MaquinaExp.SeleccionarProducto()
-        Codigo_prod = input("Introduzca el codigo del producto: ")
-        producto = MaquinaExp.EntregaProductos(Codigo_prod)
-        
-        dineroIntr = input("Introduzca el dinero a pagar: ")
-        if (dineroIntr - producto.precio) > 0:
-            BarraProgreso()
-            self.dinero = self.dinero-producto.precio
-            self.productos.append(producto.nombre)
-            return producto    
-        else:
-            print("Dinero Insuficiente")
 
     def Informacion(self):
         print(f'\tNombre: {self.nombre}\n\tSaldo Actual: {self.dinero}\n\tProductos: {self.productos}')
