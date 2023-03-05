@@ -36,11 +36,14 @@ class MaquinaExpendedora:
         Codigo_llave de tipo entero
 
         Return:
-        retorna el codigo llave del producto que esta en el diccionario
+        retorna el producto que esta en el diccionario
         """
         producto = self.productos[Codigo_llave]
-        producto.cantidad = -1
-        return self.productos.pop(Codigo_llave)
+        if producto.cantidad > 0:    
+            producto.cantidad = -1
+            return self.productos.get(Codigo_llave)
+        else:
+            print("El producto se encuentra agotado :C")
 
     def SeleccionarProducto()->None:
 
@@ -69,24 +72,43 @@ class MaquinaExpendedora:
         """
         print('----Bienvenido a maquina expendedora-----')
         print('Contamos con los siguientes productos')
-        print('SODAS')
-        lp=[]
+        
+        lp=[] 
+        for a in self.productos.values():
+            lp.append(f'{a.codigo} : {a.nombre}\t${a.precio}')
+        print(lp)
+
+    def EnlistarProductos_Tipo(self)->None:
+        """
+        Esta funcion va a enlistar todos los productos disponibles en la maquina expendedora
+
+        Arg:
+        No tiene
+
+        Return:
+        no retorna nada
+        """
+        print('----Bienvenido a maquina expendedora-----')
+        Tipo = input("Introduzca el tipo de productos que desea mostrar: ")
+        
+        
+        
+        
+        lp=[] 
         for a in self.productos.values():
             if a.tipo =='Bebida':
-                lp.append(f'{a.codigo}:{a.nombre}')
+                lp.append(f'{a.codigo} : {a.nombre}\t${a.precio}')
         print(lp)
-        lp=[]
         for a in self.productos.values():
             if a.tipo=='Botana':
-                lp.append(f'{a.codigo}:{a.nombre}')
+                lp.append(f'{a.codigo} : {a.nombre}\t${a.precio}')
         print(lp)
-        lp=[]
         for a in self.productos.values():
             if a.tipo=='Galletas':
-                lp.append(f'{a.codigo}:{a.nombre}')
+                lp.append(f'{a.codigo} : {a.nombre}\t${a.precio}')
         print(lp)
-
-
+        
+        
     
     def AgregarProducto(self, Producto):
 
@@ -119,13 +141,9 @@ class MaquinaExpendedora:
             for producto in self.productos.values():
                 archivo_csv.write(f'Nombre: {producto.nombre}\t\tCodigo: {producto.codigo}\t\tCantidad: {producto.cantidad}\n')            
 
-
-
 class User:
-
     """
     En esta clase define el atributo nombre del usuario
-
     utliza el nombre de un usuario
 
     crea un objeto user
@@ -146,7 +164,6 @@ class User:
         """
     
     def SacarProducto(self, Codigo_prod, MaquinaExp):
-
         """
         Esta funcion saca producto de la maquina expendedora
 
@@ -156,18 +173,24 @@ class User:
         Return:
         retorna producto como el codigo del producto que se entrego
         """
-    
-
         producto = MaquinaExp.productos[Codigo_prod]
-        if (self.dinero - producto.precio) > 0:
+        
+            
+    
+    def Comprar(self, MaquinaExp):
+        MaquinaExp.SeleccionarProducto()
+        Codigo_prod = input("Introduzca el codigo del producto: ")
+        producto = MaquinaExp.EntregaProductos(Codigo_prod)
+        
+        dineroIntr = input("Introduzca el dinero a pagar: ")
+        if (dineroIntr - producto.precio) > 0:
             BarraProgreso()
-            producto = MaquinaExp.EntregaProductos(Codigo_prod)
             self.dinero = self.dinero-producto.precio
             self.productos.append(producto.nombre)
             return producto    
         else:
             print("Dinero Insuficiente")
-    
+
     def Informacion(self):
         print(f'\tNombre: {self.nombre}\n\tSaldo Actual: {self.dinero}\n\tProductos: {self.productos}')
         '''
@@ -242,7 +265,10 @@ class Producto:
     """
 
     def __init__(self, nombre, precio, codigo, cantidad):
-
+        self.nombre = nombre
+        self.precio = precio
+        self.codigo = codigo
+        self.cantidad = cantidad
         """
         Esta funcion constructor le da valores a los atributos
 
@@ -252,11 +278,7 @@ class Producto:
         Return:
         no retorna nada
         """
-
-        self.nombre = nombre
-        self.precio = precio
-        self.codigo = codigo
-        self.cantidad = cantidad
+        
 
 class Sodas(Producto):
 
@@ -293,7 +315,7 @@ class Papas(Producto):
 
     utliza nombre, precio, codigo, tipo, color, contenido, marca, cantidad
 
-    crea obketo papas
+    crea objeto papas
     """
 
     def __init__(self, nombre, precio, codigo, tipo, color, contenido, marca, cantidad):
@@ -385,6 +407,8 @@ if __name__=="__main__":
     Maquina.EscribirRecibo()
     Maquina.EnlistarProducto()
     BarraProgreso()
+    
+    
 # 1. Entregar producto.
 # 2. Seleccionar producto.
 # 3. Almacenar nuevo producto.   -
