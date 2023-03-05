@@ -65,7 +65,21 @@ class MaquinaExpendedora:
         """
         print('----Bienvenido a maquina expendedora-----')
         print('Contamos con los siguientes productos')
-        
+
+        print('SODAS')
+        lp=[]
+        for a in self.productos.values():
+            if a.tipo =='Bebida':
+                lp.append(f'{a.codigo}:{a.nombre}')
+        print(lp)
+        lp=[]
+        print('Botanas')
+        for a in self.productos.values():
+            if a.tipo=='Botana':
+                lp.append(f'{a.codigo}:{a.nombre}')
+        print(lp)
+        lp=[]
+        print('Galletas')
         lp=[] 
         for a in self.productos.values():
             lp.append(f'{a.codigo} : {a.nombre} \t ${a.precio}')
@@ -131,10 +145,44 @@ class MaquinaExpendedora:
         """
         with open('datos.csv', 'w') as archivo_csv:
             for producto in self.productos.values():
-                archivo_csv.write(f'Nombre: {producto.nombre}\t\tCodigo: {producto.codigo}\t\tCantidad: {producto.cantidad}\n')            
-
+                archivo_csv.write(f'Nombre: {producto.nombre}\t\tCodigo: {producto.codigo}\t\tCantidad: {producto.cantidad}\n')  
     def Menu(self):
         return "1.Seleccionar Producto\n2.Almacenar nuevo producto (Premium)\n3. Salir\n: "
+
+    def añadir_producto(self):
+        opc=str(input('Ingrese el tipo de producto que añadirá\n1. Bebida\n2.Botana\n3.Galletas\n4.Cancelar accion'))
+        while True:
+            if opc=='1':
+                instanciarproductos('Bebida')
+                break
+            elif opc=='2':
+                instanciarproductos('Botanas')
+                break
+            elif opc=='3':
+                instanciarproductos('Galletas')
+                break
+            elif opc=='4':
+                break
+            else:
+                print('Instrucción no reconocida, intente de nuevo')
+                
+def instanciarproductos(tipo):
+    nombre=str(input('Ingrrese el nombre del producto: '))
+    precio=float(input(f'Costo de {nombre}: '))
+    codigo=float(input(f'Codigo para identificar a {nombre}'))
+    color=str(input(f'Color de {nombre}: '))
+    contenido= str(input(f'Cantidad en ml que contiene {nombre}'))
+    marca=str(input(f'Marca distribuidora de {nombre}: '))
+    cantidad=int(input(f'Cantidad del producto {nombre} que se ingresará a la maquina: '))
+    if tipo=='Bebida':
+        nombre=Sodas(nombre, precio, codigo, color, contenido, marca, cantidad)
+    elif tipo=='Botanas':
+        nombre=Papas(nombre, precio, codigo, color, contenido, marca, cantidad)
+    elif tipo =='Galletas':
+        nombre=Galletas(nombre, precio, codigo, color, contenido, marca, cantidad)
+
+def crearusuario():
+    pass       
 
 class User:
     """
