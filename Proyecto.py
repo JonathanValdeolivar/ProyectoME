@@ -45,20 +45,15 @@ class MaquinaExpendedora:
         else:
             print("El producto se encuentra agotado :C")
 
-    def SeleccionarProducto()->None:
-
-        """
-        Esta funcion sirve para seleccionar el producto que se desee
-
-        Arg:
-        no tiene 
-
-        Return:
-        no retorna nada
-        """
-
-        print("Aqui se imprime la lista de valores del diccionario")
+    def SeleccionarProducto(self)->None:
+        print("Seleccione la opcion a realizar: ")
         
+        opcion = input("1. Enlistar todos los productos\n2.Enlistar Productos por tipo:")
+        if(opcion == 1):
+            self.EnlistarProducto()
+        if(opcion == 2):
+            self.EnlistarProductos_Tipo()
+            
     def EnlistarProducto(self)->None:
             
         """
@@ -89,27 +84,24 @@ class MaquinaExpendedora:
         no retorna nada
         """
         print('----Bienvenido a maquina expendedora-----')
-        Tipo = input("Introduzca el tipo de productos que desea mostrar: ")
-        
-        
-        
-        
-        lp=[] 
-        for a in self.productos.values():
-            if a.tipo =='Bebida':
-                lp.append(f'{a.codigo} : {a.nombre}\t${a.precio}')
-        print(lp)
-        for a in self.productos.values():
-            if a.tipo=='Botana':
-                lp.append(f'{a.codigo} : {a.nombre}\t${a.precio}')
-        print(lp)
-        for a in self.productos.values():
-            if a.tipo=='Galletas':
-                lp.append(f'{a.codigo} : {a.nombre}\t${a.precio}')
-        print(lp)
-        
-        
-    
+        tipo = str(input("Introduzca el tipo de productos que desea mostrar: "))
+        if tipo.lower() == "bebida" or tipo.lower() == "botana" or tipo.lower() == "galletas":        
+            lp=[] 
+            for a in self.productos.values():
+                if a.tipo =='Bebida':
+                    lp.append(f'{a.codigo} : {a.nombre}\t${a.precio}')
+            print(lp)
+            for a in self.productos.values():
+                if a.tipo=='Botana':
+                    lp.append(f'{a.codigo} : {a.nombre}\t${a.precio}')
+            print(lp)
+            for a in self.productos.values():
+                if a.tipo=='Galletas':
+                    lp.append(f'{a.codigo} : {a.nombre}\t${a.precio}')
+            print(lp)
+        else:
+            print("Introduzca el tipo correcto: ")
+            
     def AgregarProducto(self, Producto):
 
         """
@@ -123,7 +115,7 @@ class MaquinaExpendedora:
         """
 
         llave = Producto.codigo
-        self.productos.setdefault(llave,Producto)
+        self.productos.setdefault(llave, Producto)
         
     def EscribirRecibo(self):
 
@@ -136,7 +128,6 @@ class MaquinaExpendedora:
         Return:
         no retorna nada
         """
-
         with open('datos.csv', 'w') as archivo_csv:
             for producto in self.productos.values():
                 archivo_csv.write(f'Nombre: {producto.nombre}\t\tCodigo: {producto.codigo}\t\tCantidad: {producto.cantidad}\n')            
@@ -181,10 +172,10 @@ class User:
         else:
             print("Dinero Insuficiente")
         """
-        Esta funcion saca producto de la maquina expendedora
+        Esta funcion...
 
         Arg:
-        Codigo del producto, Maquina expendedora
+        Maquina expendedora
 
         Return:
         retorna producto como el codigo del producto que se entrego
