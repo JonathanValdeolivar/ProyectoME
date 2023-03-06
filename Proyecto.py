@@ -45,12 +45,10 @@ class MaquinaExpendedora:
 
     def SeleccionarProducto(self)->None:
         print("Seleccione la opcion a realizar: ")
-        while 1:
-            try:
-                opcion = int(input("1. Enlistar todos los productos\n2. Enlistar Productos por tipo\n: "))
-                break
-            except ValueError:
-                print('Opción no reconocida\tIntente de nuevo')
+        opcion=1
+        int(opcion)
+        frase='1. Enlistar todos los productos\n2. Enlistar Productos por tipo\n: '
+        opcion=exceptionvalue(opcion,frase,'')
         if(opcion == 1):
             self.EnlistarProducto()
         if(opcion == 2):
@@ -148,7 +146,13 @@ class MaquinaExpendedora:
             while(True):
                 producto_clave = str(input("Introduzca la clave del producto a modificar"))
                 producto = self.productos.get(producto_clave)
-                opcion = int(input("\tModificar:\n\t\t1.Nombre\n\t\t2.Precio\n\t\t3.Clave\n\t\t4.Tipo\n\t\t5.Color\n\t\t6.Contenido\n\t\t7.Marca\n\t\t8.Cantidad\n\t\t9.Salir"))
+                while 1:
+                    try:
+                        opcion = int(input("\tModificar:\n\t\t1.Nombre\n\t\t2.Precio\n\t\t3.Clave\n\t\t4.Tipo\n\t\t5.Color\n\t\t6.Contenido\n\t\t7.Marca\n\t\t8.Cantidad\n\t\t9.Salir"))
+                        break
+                    except ValueError:
+                        print('Opción no reconocida, vuelva a intentarlo')
+
                 valAct = str(input("Introduzca el nuevo valor"))
                 
                 if opcion == 1:
@@ -208,12 +212,18 @@ class MaquinaExpendedora:
         '''
     def InstanciarProductos(tipo):
         nombre=str(input('Ingrrese el nombre del producto: '))
-        precio=float(input(f'Costo de {nombre}: '))
+        frase='Costo de {nombre}: '
+        float(precio)
+        precio=1.2
+        precio=exceptionvalue(precio, frase, nombre )
         codigo=float(input(f'Codigo para identificar a {nombre}'))
         color=str(input(f'Color de {nombre}: '))
         contenido= str(input(f'Cantidad en ml que contiene {nombre}'))
         marca=str(input(f'Marca distribuidora de {nombre}: '))
-        cantidad=int(input(f'Cantidad del producto {nombre} que se ingresará a la maquina: '))
+        cantidad=1
+        int(cantidad)
+        frase=f'Cantidad del producto {nombre} que se ingresará a la maquina: '
+        cantidad=exceptionvalue(cantidad, frase, nombre)
         if tipo=='Bebida':
             producto=Sodas(nombre, precio, codigo, 'Bebida', color, contenido, marca, cantidad)
         elif tipo=='Botana':
@@ -507,7 +517,10 @@ def CrearUsuario():
         if contraseña==contraseña1:
             break
         print('Las contraseñas no coinciden, intente de nuevo')
-    edad = int(input('Ingrese su edad: '))
+    edad=1
+    int(edad)
+    frase='Ingrese su edad: '
+    edad=exceptionvalue(edad,frase,'')
     compañia=str(input('Compañía para la que trabaja: '))
     Usuario = UsuarioPremium_Dueño(nombre, contraseña, edad, compañia)
     return Usuario        
@@ -517,7 +530,18 @@ class CodigoNoReconocido(Exception):
         pass
     def mensaje(self):
         print('ERROR CODIGO NO EXISTETE <<<<<<<<')
-
+def exceptionvalue(variable,frase,nombre):
+    while 1:
+        try:
+            if type(variable) is int:
+                variable=int(input(frase))
+            elif variable is float():
+                variable=float(input(frase))
+            return variable
+        except ValueError:
+            print('El tipo de dato no coincide, favor de volverlo a intentar')
+        finally:
+            return variable
 if __name__=="__main__":
     
     diccionarioProductos = dict()
