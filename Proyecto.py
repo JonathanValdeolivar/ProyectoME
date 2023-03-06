@@ -53,6 +53,12 @@ class MaquinaExpendedora:
             self.EnlistarProducto()
         if(opcion == 2):
             self.EnlistarProductos_Tipo()
+        
+        '''
+        Este metodo llama a los metodos, EnlistarProducto y EnlistarProductos_Tipo del mismo objeto.
+        Esto mostrará la lista de productos que hay para que el usuario pueda elegir.
+        
+        '''
             
     def EnlistarProducto(self)->None:
             
@@ -123,7 +129,6 @@ class MaquinaExpendedora:
         self.productos.setdefault(llave, Producto)
             
             
-            
     def EscribirRecibo(self):
         """
         Esta funcion va a escribir el recibo de la compra del producto o productos
@@ -137,8 +142,37 @@ class MaquinaExpendedora:
         with open('datos.csv', 'w') as archivo_csv:
             for producto in self.productos.values():
                 archivo_csv.write(f'Nombre: {producto.nombre}\t\tCodigo: {producto.codigo}\t\tCantidad: {producto.cantidad}\n')  
+    
+    
     def Menu(self):
+        '''
+        Despliega un menu con las opciones posibles a realizar
+        '''
         return "\n\n1.Iniciar Usuario Premium\n2.Actualizar Productos\n3.Seleccionar Producto\n4.Almacenar nuevo producto (Premium)\n5. Salir\n: "
+
+    def BarraProgreso(self):
+        cadena = '-' * 50
+        caracter = '#'
+        b = 0
+        
+        for i in range(100):
+            if(i%2==0):
+                x = list(cadena)
+                x[b] = caracter
+                cadena = "".join(x)
+                
+            print(f'[{cadena}]{i+1}%', end='\r')
+            time.sleep(0.03)
+        print('\n')
+        print('Entrega Lista')
+        
+        '''
+        Esta funcion simula una barra de progreso, se usará en la entrega de productos
+        
+        Return:
+        No retorna nada
+        '''
+
 
     def ActualizarValores(self, contraseña):
         if contraseña != None:
@@ -175,9 +209,26 @@ class MaquinaExpendedora:
                     break
         else:
             print("No tienes los permisos para hacer este proceso...")
+            
+        '''
+        Esta funcion pregunta al usuario el atributo del producto que quiere cambiar. Se hace uso de los metodos de acceso
+        setters de los atributos para modificar dichos atributos.
+        
+        Args:
+        Recibe la contraseña del usuario, en caso de ser un 'UsuarioBase' la contraseña será None, por lo que no podrá acceder
+        a esta funcion.
+        '''    
+    
 
 
     def Añadir_producto(self, contraseña = None):
+        '''
+        Esta funcion es diferente a AgregarProducto, la funcion de este metodo es añadir un objeto
+        desde teclado, haciendo uso de la funcion 'InstanciarProducto' y creando el objeto dentro de
+        la funcion. Al final de la funcion, se hace uso del mismo metodo de AñadirProducto para añadirlo
+        a la maquina.
+        
+        '''
         if contraseña != None:
             producto = None
             opc=str(input('Ingrese el tipo de producto que añadirá\n1. Bebida\n2.Botana\n3.Galletas\n4.Cancelar accion'))
@@ -203,14 +254,18 @@ class MaquinaExpendedora:
             
         
         
-        '''
-        Esta funcion es diferente a AgregarProducto, la funcion de este metodo es añadir un objeto
-        desde teclado, haciendo uso de la funcion 'InstanciarProducto' y creando el objeto dentro de
-        la funcion. Al final de la funcion, se hace uso del mismo metodo de AñadirProducto para añadirlo
-        a la maquina.
         
-        '''
     def InstanciarProductos(tipo):
+        '''
+        Este metodo pregunta al usuario los atributos de el producto y posteriormente lo crea.
+        Segun el tipo de producto que se vaya a crear, se instancia diferentes productos.
+        
+        Args:
+        Recibe el tipo del producto que se quiere instanciar.
+                
+        Return:
+        Retorna el producto instanciado.    
+        '''
         nombre=str(input('Ingrrese el nombre del producto: '))
         frase='Costo de {nombre}: '
         float(precio)
@@ -231,6 +286,9 @@ class MaquinaExpendedora:
         elif tipo =='Galletas':
             producto=Galletas(nombre, precio, codigo, 'Galletas', color, contenido, marca, cantidad)
         return producto
+    
+        
+    
 
     
 class User:
@@ -256,7 +314,6 @@ class User:
         no retorna nada
         """
     def Comprar(self, MaquinaExp):
-        
         MaquinaExp.SeleccionarProducto()
         while 1:
             try:
@@ -281,9 +338,8 @@ class User:
                 else:
                     print('Vuelva a ingresar su dinero')
 
-
         if dineroIntr >= producto.precio:
-            BarraProgreso()
+            MaquinaExp.BarraProgreso()
             self.dinero = self.dinero-dineroIntr
             cambio = dineroIntr-producto.precio
             print(f"Cambio: {cambio}")
@@ -294,13 +350,15 @@ class User:
             print("Dinero Insuficiente")
             
         """
-        Esta funcion...
-
+        Este metodo se encarga de gestionar toda la compra de los productas. 
+        Permite al usuario introducir el codigo del producto que quiere
+        Permite introducir el dinero y hace el proceso del pago. Añade el producto comprado a una lista del usuario
+        
         Arg:
-        Maquina expendedora
+        El objeto Maquina expendedora
 
         Return:
-        retorna producto como el codigo del producto que se entrego
+        Retorna el producto comprado.
         """
 
     def Informacion(self):
@@ -358,7 +416,6 @@ class Producto:
     """
     Esta clase define atributos y metodos de los productos
     """
-
     def __init__(self, nombre, precio, codigo, cantidad):
         self.nombre = nombre
         self.precio = precio
@@ -373,30 +430,63 @@ class Producto:
         Return:
         no retorna nada
         """
-        
     def setNombre(self, nombre):
         self.nombre = nombre
-    
+        '''
+        Modifica el atributo nombre
+        Arg:
+        nombre
+        '''
     def setPrecio(self, precio):
         self.precio = precio
-    
+        '''
+        Modifica el atributo precio
+        Arg:
+        precio
+        '''
     def setCodigo(self, codigo):
         self.codigo = codigo
-    
+        '''
+        Modifica el atributo codigo
+        Arg:
+        codigo
+        '''
     def setTipo(self, tipo):
         self.tipo = tipo
-    
+        '''
+        Modifica el atributo tipo
+        Arg:
+        tipo
+        '''
     def setColor(self, color):
         self.color = color
-    
+        '''
+        Modifica el atributo color
+        Arg:
+        color
+        '''
     def setContenido(self, contenido):
         self.contenido = contenido
-        
+        '''
+        Modifica el atributo contenido
+        Arg:
+        contenido
+        '''
     def setMarca(self, marca):
         self.marca = marca
-
+        '''
+        Modifica el atributo marca
+        Arg:
+        marca
+        '''
+        
     def setCantidad(self, cantidad):
         self.cantidad = cantidad
+        '''
+        Modifica el atributo cantidad
+        Arg:
+        cantidad
+        '''
 
 class Sodas(Producto):
 
@@ -454,9 +544,6 @@ class Papas(Producto):
         self.tipo = tipo
         self.color=color
 
-        
-
-
 class Galletas(Producto):
 
     """
@@ -485,31 +572,17 @@ class Galletas(Producto):
         self.tipo = tipo
         self.color=color
 
-def BarraProgreso():
-    cadena = '-' * 50
-    caracter = '#'
-    b = 0
-    
-    for i in range(100):
-        if(i%2==0):
-            x = list(cadena)
-            x[b] = caracter
-            cadena = "".join(x)
-            
-        print(f'[{cadena}]{i+1}%', end='\r')
-        time.sleep(0.03)
-    print('\n')
-    print('Entrega Lista')
-    
-    '''
-    Esta funcion simula una barra de progreso, se usará en la entrega de productos
-    
-    Return:
-    No retorna nada
-    '''
+
 
     
 def CrearUsuario():
+    '''
+    Este metodo Crea un usuario premium. Pregunta el nombre, contraseña, edad y compañia.
+    
+    Return: 
+    Retorna un usuario premium
+    '''
+    
     nombre=str(input('Ingresee su nombre:'))
     while 1 :
         contraseña=str(input('Contraseña: '))
@@ -542,6 +615,11 @@ def exceptionvalue(variable,frase,nombre):
             print('El tipo de dato no coincide, favor de volverlo a intentar')
         finally:
             return variable
+        
+    '''
+    Esta clase crea una excepcion para los casos que no coincidan los codigos.
+    
+    '''
 if __name__=="__main__":
     
     diccionarioProductos = dict()
@@ -586,6 +664,7 @@ if __name__=="__main__":
     Usuario = UsuarioBase()
     while(True):   
         Maquina.EscribirRecibo()
+        Usuario.Informacion()
         while 1:
             try:
                 opcion = int(input(Maquina.Menu()))
@@ -598,7 +677,7 @@ if __name__=="__main__":
         if opcion == 2:
             Maquina.ActualizarValores(Usuario.contraseña)
         if opcion == 3:
-            Usuario.Informacion()
+            
             Usuario.Comprar(Maquina)
         if opcion == 4:
             Usuario.Informacion()
