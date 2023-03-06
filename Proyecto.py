@@ -45,8 +45,12 @@ class MaquinaExpendedora:
 
     def SeleccionarProducto(self)->None:
         print("Seleccione la opcion a realizar: ")
-        
-        opcion = int(input("1. Enlistar todos los productos\n2. Enlistar Productos por tipo\n: "))
+        while 1:
+            try:
+                opcion = int(input("1. Enlistar todos los productos\n2. Enlistar Productos por tipo\n: "))
+                break
+            except ValueError:
+                print('Opción no reconocida\tIntente de nuevo')
         if(opcion == 1):
             self.EnlistarProducto()
         if(opcion == 2):
@@ -67,7 +71,7 @@ class MaquinaExpendedora:
         print('Contamos con los siguientes productos')
         lp=[]
         for a in self.productos.values():
-            lp.append(f'{a.codigo} : {a.nombre}     ${a.precio}')
+            lp.append(f'{a.codigo} : {a.nombre}(${a.precio})    ')
         print(lp)
 
     def EnlistarProductos_Tipo(self)->None:
@@ -88,19 +92,19 @@ class MaquinaExpendedora:
             print('BEBIDAS')
             for a in self.productos.values():
                 if a.tipo =='Bebida':
-                    lp.append(f'{a.codigo} : {a.nombre}     ${a.precio}')
+                    lp.append(f'{a.codigo} : {a.nombre}(${a.precio})    ')
             print(lp)
         if tipo.lower() == "botana":
             print('BOTANAS')
             for a in self.productos.values():
                 if a.tipo=='Botana':
-                    lp.append(f'{a.codigo} : {a.nombre}     ${a.precio}')
+                    lp.append(f'{a.codigo} : {a.nombre}(${a.precio})    ')
             print(lp)
         if tipo.lower() == "galletas":
             print('GALLETAS')
             for a in self.productos.values():
                 if a.tipo=='Galletas':
-                    lp.append(f'{a.codigo} : {a.nombre}     ${a.precio}')
+                    lp.append(f'{a.codigo} : {a.nombre}(${a.precio})    ')
             print(lp)
         else:
             print("Introduzca el tipo correcto: ")
@@ -221,14 +225,33 @@ class User:
         Return:
         no retorna nada
         """
-
     def Comprar(self, MaquinaExp):
         
         MaquinaExp.SeleccionarProducto()
-        Codigo_prod = str(input("Introduzca el codigo del producto: "))
+        while 1:
+            try:
+                Codigo_prod = str(input("Introduzca el codigo del producto: "))
+                if Codigo_prod not in Maquina.productos.keys():
+                    raise CodigoNoReconocido()
+                else:
+                    break
+            except CodigoNoReconocido as err:
+                print('El código que ingreso no coincide con ninguno de los mostrados\tPor favor intente de nuevo')
+
         producto = MaquinaExp.EntregarProducto(Codigo_prod)
-        
-        dineroIntr = float(input("Introduzca el dinero a pagar: "))
+        while 1:
+            try:
+                dineroIntr = float(input("Introduzca el dinero a pagar: "))
+                break
+            except ValueError:
+                print('Dinero no reconocido')
+                sa=str(input('¿Desea salir de la operación?\n1.Sí\t2.Presione cualquier otra tecla\n : '))
+                if sa=='1':
+                    exit()
+                else:
+                    print('Vuelva a ingresar su dinero')
+
+
         if dineroIntr >= producto.precio:
             BarraProgreso()
             self.dinero = self.dinero-dineroIntr
@@ -427,7 +450,12 @@ def BarraProgreso():
     Return:
     No retorna nada
     '''
-        
+class CodigoNoReconocido(Exception):
+    def __init__(self):
+        pass
+    def mensaje(self):
+        print('ERROR CODIGO NO EXISTETE <<<<<<<<')
+              
 if __name__=="__main__":
     diccionarioProductos = dict()
     Maquina = MaquinaExpendedora(diccionarioProductos, 8000)
@@ -473,8 +501,12 @@ if __name__=="__main__":
 
     while(1):   
         Maquina.EscribirRecibo()
-        opcion = int(input(Maquina.Menu()))
-        
+        while 1:
+            try:
+                opcion = int(input(Maquina.Menu()))
+                break
+            except ValueError:
+                print('Opcion no reconocida\nIntente de nuevo')
         if opcion == 1:
             Usuariox.Informacion()
             Usuariox.Comprar(Maquina)
@@ -482,7 +514,7 @@ if __name__=="__main__":
             Usuariox.Informacion()
             Maquina.Añadir_producto(Usuariox.contraseña)
         if opcion == 3:
-            exit
+            exit()
 
 
 # 1. Entregar producto.
