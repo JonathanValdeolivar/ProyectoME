@@ -136,7 +136,38 @@ class MaquinaExpendedora:
             for producto in self.productos.values():
                 archivo_csv.write(f'Nombre: {producto.nombre}\t\tCodigo: {producto.codigo}\t\tCantidad: {producto.cantidad}\n')  
     def Menu(self):
-        return "\n\n1.Seleccionar Producto\n2.Almacenar nuevo producto (Premium)\n3. Salir\n: "
+        return "\n\n1.Iniciar Usuario Premium\n2.Actualizar Productos\n3.Seleccionar Producto\n4.Almacenar nuevo producto (Premium)\n5. Salir\n: "
+
+    def ActualizarValores(self, contraseña):
+        if contraseña != None:
+            self.EnlistarProducto()
+            while(True):
+                producto_clave = str(input("Introduzca la clave del producto a modificar"))
+                producto = self.productos.get(producto_clave)
+                opcion = int(input("\tModificar:\n\t\t1.Nombre\n\t\t2.Precio\n\t\t3.Clave\n\t\t4.Tipo\n\t\t5.Color\n\t\t6.Contenido\n\t\t7.Marca\n\t\t8.Cantidad\n\t\t9.Salir"))
+                valAct = str(input("Introduzca el nuevo valor"))
+                
+                if opcion == 1:
+                    producto.setNombre(valAct)
+                if opcion == 2:
+                    producto.setPrecio(float(valAct))
+                if opcion == 3:
+                    producto.setCodigo(valAct)
+                if opcion == 4:
+                    producto.setTipo(valAct)
+                if opcion == 5:
+                    producto.setColor(valAct)
+                if opcion == 6:
+                    producto.setContenido(valAct)
+                if opcion == 7:
+                    producto.setMarca(valAct)
+                if opcion == 8:
+                    producto.setCantidad(valAct)
+                if opcion == 9:
+                    break
+        else:
+            print("No tienes los permisos para hacer este proceso...")
+
 
     def Añadir_producto(self, contraseña = None):
         if contraseña != None:
@@ -187,17 +218,6 @@ class MaquinaExpendedora:
             producto=Galletas(nombre, precio, codigo, 'Galletas', color, contenido, marca, cantidad)
         return producto
 
-def CrearUsuario():
-    nombre=str(input('Ingresee su nombre:'))
-    while 1 :
-        contraseña=str(input('Contraseña: '))
-        contraseña1=str(input('Repita su contraseña: '))
-        if contraseña==contraseña1:
-            break
-        print('Las contraseñas no coinciden, intente de nuevo')
-    edad=int(input('Ingrese su edad: '))
-    compañia=str(input('Compañía para la que trabaja'))
-    nombre=UsuarioPremium_Dueño(nombre, contraseña, edad, compañia)
     
 class User:
     """
@@ -320,6 +340,30 @@ class Producto:
         Return:
         no retorna nada
         """
+        
+    def setNombre(self, nombre):
+        self.nombre = nombre
+    
+    def setPrecio(self, precio):
+        self.precio = precio
+    
+    def setCodigo(self, codigo):
+        self.codigo = codigo
+    
+    def setTipo(self, tipo):
+        self.tipo = tipo
+    
+    def setColor(self, color):
+        self.color = color
+    
+    def setContenido(self, contenido):
+        self.contenido = contenido
+        
+    def setMarca(self, marca):
+        self.marca = marca
+
+    def setCantidad(self, cantidad):
+        self.cantidad = cantidad
 
 class Sodas(Producto):
 
@@ -377,6 +421,9 @@ class Papas(Producto):
         self.tipo = tipo
         self.color=color
 
+        
+
+
 class Galletas(Producto):
 
     """
@@ -427,14 +474,25 @@ def BarraProgreso():
     Return:
     No retorna nada
     '''
-        
+    
+def CrearUsuario():
+    nombre=str(input('Ingresee su nombre:'))
+    while 1 :
+        contraseña=str(input('Contraseña: '))
+        contraseña1=str(input('Repita su contraseña: '))
+        if contraseña==contraseña1:
+            break
+        print('Las contraseñas no coinciden, intente de nuevo')
+    edad = int(input('Ingrese su edad: '))
+    compañia=str(input('Compañía para la que trabaja: '))
+    Usuario = UsuarioPremium_Dueño(nombre, contraseña, edad, compañia)
+    return Usuario        
+
 if __name__=="__main__":
+    
     diccionarioProductos = dict()
     Maquina = MaquinaExpendedora(diccionarioProductos, 8000)
-    
-    Dueño = UsuarioPremium_Dueño("Juan Perez", "54321", "41", "Juan Expendio")
-    Usuariox = UsuarioBase()
-    
+        
     #Instanciar Productos
     
     Pepsi = Sodas("Pepsi", 15.50, "0110", "Bebida", "Negro", "300ml", "PespiCola", 15)
@@ -444,7 +502,7 @@ if __name__=="__main__":
     peñaFiel = Sodas('Peñafiel', 15.00, '0117', 'Bebidas', 'transparente', '600ml', 'Peñafiel', 10)
     Takis = Papas("Takis Fuego", 15.00, "0210", "Botana", "Morado", "250g", "Barcel", 20)
     Chips = Papas('Chips Fuego', 17.00, '0211', 'Botana', 'Morado', '30g', 'Barcel', 14)
-    cheetos = Papas('cheetos', 12.00, '0212', 'Botana', 'Naranja', '30g', 'Cheetos', 13) 
+    cheetos = Papas('Cheetos', 12.00, '0212', 'Botana', 'Naranja', '30g', 'Cheetos', 13) 
     runners = Papas('Runners', 15.00, '0215', 'Botana', 'Rojo', '28g', 'Barcel', 7)
     Doritos = Papas('Doritos Nacho', 16.00, '0217', 'Botana', 'Naranja', '32g', 'Barcel', 15)
     Emperador = Galletas("Emperador", 17.00, "0310", "Galletas", "Rojo", "300g", "Gamesa", 10)
@@ -471,25 +529,21 @@ if __name__=="__main__":
     Maquina.AgregarProducto(Maria)
     Maquina.AgregarProducto(Deliciosas)
 
-    while(1):   
+    Usuario = UsuarioBase()
+    while(True):   
         Maquina.EscribirRecibo()
         opcion = int(input(Maquina.Menu()))
-        
         if opcion == 1:
-            Usuariox.Informacion()
-            Usuariox.Comprar(Maquina)
+            Usuario = CrearUsuario()
+            print("Usuario Creado")
         if opcion == 2:
-            Usuariox.Informacion()
-            Maquina.Añadir_producto(Usuariox.contraseña)
+            Maquina.ActualizarValores(Usuario.contraseña)
         if opcion == 3:
+            Usuario.Informacion()
+            Usuario.Comprar(Maquina)
+        if opcion == 4:
+            Usuario.Informacion()
+            Maquina.Añadir_producto(Usuario.contraseña)
+        if opcion == 5:
             exit
 
-
-# 1. Entregar producto.
-# 2. Seleccionar producto.
-# 3. Almacenar nuevo producto.   -
-# 4. Enlistar total de productos de un tipo.
-# 5. Enlistar todos los productos.
-# 6. Mostrar costos.
-# 7. Regresar cambio.
-# 8. Manejo de efectivo (mostrar total, alertar por falta de efectivo, etc.)
