@@ -140,6 +140,30 @@ class MaquinaExpendedora:
     def Menu(self):
         return "\n\n1.Iniciar Usuario Premium\n2.Actualizar Productos\n3.Seleccionar Producto\n4.Almacenar nuevo producto (Premium)\n5. Salir\n: "
 
+    def BarraProgreso(self):
+        cadena = '-' * 50
+        caracter = '#'
+        b = 0
+        
+        for i in range(100):
+            if(i%2==0):
+                x = list(cadena)
+                x[b] = caracter
+                cadena = "".join(x)
+                
+            print(f'[{cadena}]{i+1}%', end='\r')
+            time.sleep(0.03)
+        print('\n')
+        print('Entrega Lista')
+        
+        '''
+        Esta funcion simula una barra de progreso, se usará en la entrega de productos
+        
+        Return:
+        No retorna nada
+        '''
+
+
     def ActualizarValores(self, contraseña):
         if contraseña != None:
             self.EnlistarProducto()
@@ -283,7 +307,7 @@ class User:
 
 
         if dineroIntr >= producto.precio:
-            BarraProgreso()
+            MaquinaExp.BarraProgreso()
             self.dinero = self.dinero-dineroIntr
             cambio = dineroIntr-producto.precio
             print(f"Cambio: {cambio}")
@@ -485,28 +509,7 @@ class Galletas(Producto):
         self.tipo = tipo
         self.color=color
 
-def BarraProgreso():
-    cadena = '-' * 50
-    caracter = '#'
-    b = 0
-    
-    for i in range(100):
-        if(i%2==0):
-            x = list(cadena)
-            x[b] = caracter
-            cadena = "".join(x)
-            
-        print(f'[{cadena}]{i+1}%', end='\r')
-        time.sleep(0.03)
-    print('\n')
-    print('Entrega Lista')
-    
-    '''
-    Esta funcion simula una barra de progreso, se usará en la entrega de productos
-    
-    Return:
-    No retorna nada
-    '''
+
 
     
 def CrearUsuario():
@@ -586,6 +589,7 @@ if __name__=="__main__":
     Usuario = UsuarioBase()
     while(True):   
         Maquina.EscribirRecibo()
+        Usuario.Informacion()
         while 1:
             try:
                 opcion = int(input(Maquina.Menu()))
@@ -598,7 +602,7 @@ if __name__=="__main__":
         if opcion == 2:
             Maquina.ActualizarValores(Usuario.contraseña)
         if opcion == 3:
-            Usuario.Informacion()
+            
             Usuario.Comprar(Maquina)
         if opcion == 4:
             Usuario.Informacion()
